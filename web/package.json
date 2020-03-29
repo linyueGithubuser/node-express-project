@@ -1,0 +1,22 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "基于node express构建的web界面",
+  "main": "app.js",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "del": "^3.0.0",
+    "ejs": "^2.5.6",
+    "express": "^3.21.2",
+    "express-session": "^1.15.4",
+    "init": "^0.1.2",
+    "leanengine": "^2.0.4",
+    "mysql": "^2.13.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ly",
+  "license": "ISC"
+}
