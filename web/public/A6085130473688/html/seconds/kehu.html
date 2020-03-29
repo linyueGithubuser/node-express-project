@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>set</title>
+    <link rel="stylesheet" href="../../css/aui.css">
+    <style media="screen">
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .title_s {
+            color: #724228;
+        }
+
+        .aui-bar-nav .aui-pull-left .aui-iconfont {
+            color: #724228;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav aui-bar-light" id="aui-header">
+        <div class="aui-btn aui-pull-left title_s" onclick="goback()" tapmode="hover">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title title_s">客户服务</div>
+    </header>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var headerPos = $api.offset(header);
+        api.openFrame({
+            name: 'kehu_frm',
+            url: './kehu_frm.html',
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: 'auto'
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)'
+        });
+    };
+
+    function goback() {
+        api.closeWin({
+            name: 'kehu'
+        });
+
+    }
+</script>
+
+</html>

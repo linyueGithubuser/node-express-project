@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>set</title>
+    <link rel="stylesheet" href="../../css/aui.css">
+    <style media="screen">
+        .company_msg {
+            margin-top: 260px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="aui-content company_msg">
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-header">公司地址</li>
+            <li class="aui-list-item" onclick="searchRoute()">
+                <div class="aui-list-item-label-icon">
+                    <i class="aui-iconfont aui-icon-location"></i>
+                </div>
+                <div class="aui-list-item-inner">
+                    开始导航
+                </div>
+            </li>
+            <li class="aui-list-item" onclick="showUserLocation()">
+                <div class="aui-list-item-label-icon">
+                    <i class="aui-iconfont aui-icon-search"></i>
+                </div>
+                <div class="aui-list-item-inner">
+                    我的位置
+                </div>
+            </li>
+            <li class="aui-list-item" onclick="call('028-88888888')">
+                <div class="aui-list-item-label-icon">
+                    <i class="aui-iconfont aui-icon-phone"></i>
+                </div>
+                <div class="aui-list-item-inner">
+                    服务热线：028-88888888
+                </div>
+            </li>
+        </ul>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.parseTapmode();
+        var map = api.require('bMap');
+        map.open({
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 240
+            },
+            center: {
+                lon: 104.054796,
+                lat: 30.674337
+            },
+            zoomLevel: 18,
+            showUserLocation: true,
+            fixedOn: api.frameName,
+            fixed: true
+        }, function(ret) {
+            if (ret.status) {
+                // 暂时不做其他处理
+            }
+        });
+
+
+        map.addAnnotations({
+            annotations: [{
+                id: 1,
+                lon: 104.054796,
+                lat: 30.674337
+            }]
+        }, function(ret) {
+            if (ret) {
+                api.toast({
+                    msg: '小幸运cake',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        });
+    }
+
+    function call(val) {
+        api.call({
+            type: 'tel_prompt',
+            number: val
+        });
+    }
+
+    function showUserLocation() {
+        var map = api.require('bMap');
+        map.showUserLocation({
+            isShow: true,
+            trackingMode: 'none'
+        });
+    }
+
+    function searchRoute() {
+        var lat,lng;
+        var bmLocation = api.require('bmLocation');
+        bmLocation.configManager({
+            accuracy: 'device_sensors',
+            filter: 1,
+            activityType: 'automotiveNavigation',
+            coordinateType: 'GCJ02',
+            locationTimeout: 10,
+            reGeocodeTimeout: 10
+        });
+        bmLocation.singleLocation({
+            reGeocode: false,
+            netWorkState: false
+        }, function(ret) {
+            var sta = ret.status;
+            if (sta) {
+                lng = ret.location.longitude;
+                lat= ret.location.latitude;
+            } else {
+                // _this.toastActive("网络信号差，定位失败");
+            }
+        });
+        var bmap = api.appInstalled({
+            sync: true,
+            appBundle: 'com.autonavi.minimap'
+        });
+        var bmap = api.appInstalled({
+            sync: true,
+            appBundle: 'com.baidu.BaiduMap'
+        });
+        var bttons = [];
+        bmap && bttons.push('高德地图');
+        bmap && bttons.push('百度地图');
+        if (bttons.length === 0)
+            return api.toast({
+                msg: '你未安装百度地图或高德地图',
+                duration: 2000,
+                location: 'bottom'
+            });
+        api.actionSheet({
+            cancelTitle: '取消',
+            buttons: bttons
+        }, function(ret, err) {
+            if (ret.buttonIndex == 1) {
+                api.openApp({
+                    appParam: {
+                        slat: 103.054796,
+                        slon: 30.684337,
+                        dlat: 104.054796,
+                        dlon: 30.674337,
+                        dev: 0,
+                        m: 0,
+                        t: 1,
+                        dname: '',
+                        mode: 'driving',
+                        sourceApplication: ''
+                    },
+                    androidPkg: 'com.autonavi.minimap',
+                    uri: 'androidamap://route?sourceApplication=softname&slat=36.2&slon=116.1&sname=abc&dlat=36.3&dlon=116.2&dname=def&dev=0&t=1'
+                }, function(ret, err) {
+                    if (ret) {
+                        alert(JSON.stringify(ret));
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+                });
+            } else if (ret.buttonIndex == 2) {
+                api.openApp({
+                    androidPkg: 'android.intent.action.VIEW',
+                    appParam: {
+                        // origin: '',
+                        // destination: '',
+                        // region: '成都',
+                        // mode: 'driving',
+                        src: api.appName
+                    },
+                    uri: 'intent://map/direction?origin=latlng:'+ lat +','+ lng +'|name:我的位置&destination=春熙路&mode=driving&region=成都&src=osm#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end',
+                    iosUrl: 'baidumap://map/direction'
+                }, function(ret, err) {
+                    if (ret) {
+                        alert(JSON.stringify(ret));
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+                });
+            }
+        });
+
+    }
+</script>
+
+</html>

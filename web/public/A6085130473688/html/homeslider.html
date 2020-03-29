@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>底部导航</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        /*header {
+            background-color: #3396fb;
+        }
+
+        header ul li {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            display: none;
+            color: #fff;
+            position: relative;
+            font-size: 18px;
+        }
+
+        header ul li.active {
+            display: block;
+        }*/
+
+        #footer {
+            background-color: #f2f2f2;
+        }
+
+        #footer ul li {
+            padding-top: 36px;
+            padding-bottom: 4px;
+            background: url() no-repeat center 2px;
+            background-size: auto 30px;
+            text-align: center;
+        }
+
+        #footer ul li.active {
+            color: #3396fb;
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(../image/family2.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(../image/family4.png);
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(../image/family1.png);
+        }
+
+        #footer ul li:nth-child(4) {
+            background-image: url(../image/family3.png);
+        }
+
+        #footer ul li:nth-child(5) {
+            background-image: url(../image/family3.png);
+        }
+
+        #footer ul li:nth-child(1).active {
+            background-image: url(../image/family5.png);
+        }
+
+        #footer ul li:nth-child(2).active {
+            background-image: url(../image/family8.png);
+        }
+
+        #footer ul li:nth-child(3).active {
+            background-image: url(../image/family6.png);
+        }
+
+        #footer ul li:nth-child(4).active {
+            background-image: url(../image/family7.png);
+        }
+
+        #footer ul li:nth-child(5).active {
+            background-image: url(../image/family7.png);
+        }
+
+        .flex-con {
+            overflow: auto
+        }
+
+        .headers .aui-col-xs-12 {
+            text-align: center;
+        }
+
+        .headers .aui-col-xs-12 img {
+            height: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <!-- <header>
+            <ul>
+                <li class="border-b active">首页</li>
+                <li class="border-b">特卖</li>
+                <li class="border-b">点评圈</li>
+                <li class="border-b">我的</li>
+            </ul>
+        </header> -->
+        <header class="aui-content headers">
+            <div class="aui-row">
+                <div class="aui-col-xs-12">
+                    <img src="../image/cake/logo.png" alt="LOGO">
+                </div>
+            </div>
+        </header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <div id="footer" class="border-t">
+            <ul class="flex-wrap">
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active">首页</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">特卖</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">点评圈</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">购物车</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">我的</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/json.js"></script>
+<script type="text/javascript" src="../script/hole.js"></script>
+<script type="text/javascript" src="../script/localdate.js"></script>
+<script type="text/javascript">
+    var nlsp = new lsp("cakeList");
+    nlsp.add(JsonList.cakeList);
+
+    var nlsp = new lsp("iceList");
+    nlsp.add(JsonList.iceList);
+
+    var nlsp = new lsp("teaList");
+    nlsp.add(JsonList.teaList)
+
+    var nlsp = new lsp('giftList');
+    nlsp.add(JsonList.giftList)
+    var cart = [];
+    var nlsp = new lsp("cartList");
+    nlsp.add(cart);
+    var nlsp = new lsp("holeList");
+    nlsp.add(hole.commentaries);
+    apiready = function() {
+        $api.fixStatusBar($api.dom('header'));
+        funIniGroup();
+    }
+
+    function funIniGroup() {
+        var frames = [{
+            name: 'first',
+            url: './main/first.html',
+            bgColor: '#fff',
+            bounces: true
+        }, {
+            name: 'temai',
+            url: './main/temai_frm.html',
+            bgColor: '#fff',
+            bounces: true
+        }, {
+            name: 'dianp',
+            url: './main/water_fall.html',
+            bgColor: '#fff',
+            bounces: true
+        }, {
+            name: 'cart',
+            url: './main/cart_frm.html',
+            bgColor: '#fff',
+            bounces: true
+        }, {
+            name: 'my',
+            url: './main/my_frm.html',
+            bgColor: '#fff',
+            bounces: true
+        }];
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight,
+                w: api.winWidth,
+                h: $api.dom('#main').offsetHeight
+            },
+            index: 0,
+            frames: frames
+        }, function(ret, err) {
+
+        });
+    }
+
+    // 随意切换按钮
+    function randomSwitchBtn(tag) {
+        if (tag == $api.dom('#footer li.active')) return;
+        var eFootLis = $api.domAll('#footer li'),
+            // eHeaderLis = $api.domAll('header li'),
+            index = 0;
+        for (var i = 0, len = eFootLis.length; i < len; i++) {
+            if (tag == eFootLis[i]) {
+                index = i;
+            } else {
+                $api.removeCls(eFootLis[i], 'active');
+                // $api.removeCls(eHeaderLis[i], 'active');
+            }
+        }
+        $api.addCls(eFootLis[index], 'active');
+        // $api.addCls(eHeaderLis[index], 'active');
+        api.setFrameGroupIndex({
+            name: 'group',
+            index: index
+        });
+    }
+</script>

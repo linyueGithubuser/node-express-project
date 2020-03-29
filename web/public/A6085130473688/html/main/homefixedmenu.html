@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="../../css/aui.css">
+    <title>左滑菜单栏</title>
+    <style media="screen">
+        .hover {
+            background-color: #eee !important;
+        }
+    </style>
+</head>
+
+<body>
+    <section id='setOptions'>
+        <ul class="aui-content aui-margin-b-15">
+            <li v-for="(item,index) in optionList" class="aui-list aui-list-in">
+                <ul class="aui-list-item" @click="openNewwin(item.optionSrc)" tapmode='hover'>
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont" :class="item.optionIcon"></i>
+                    </div>
+                    <div class="aui-list-item-inner">{{item.optionTitle}}</div>
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li class="aui-row">
+                <dl v-for="(items,index) in footerList" class="aui-col-xs-2 aui-text-center">
+                    <dt @click="openNewwin(items.optionSrc)" tapmode='hover'>
+                      <p><i class="aui-iconfont" :class="items.optionIcon"></i></p>
+                      <p>{{items.optionTitle}}</p>
+                    </dt>
+                </dl>
+            </li>
+        </ul>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.parseTapmode();
+
+        var vm = new Vue({
+            el: '#setOptions',
+            data: {
+                optionList: [{
+                        optionIcon: 'aui-icon-home',
+                        optionSrc: '',
+                        optionTitle: '会员特权',
+                        optionId: '1'
+                    }, {
+                        optionIcon: 'aui-icon-cert',
+                        optionSrc: '',
+                        optionTitle: '我的钱包',
+                        optionId: '2'
+                    }, {
+                        optionIcon: 'aui-icon-display',
+                        optionSrc: '',
+                        optionTitle: '个性装扮',
+                        optionId: '3'
+                    }, {
+                        optionIcon: 'aui-icon-like',
+                        optionSrc: '',
+                        optionTitle: '我的收藏',
+                        optionId: '4'
+                    }, {
+                        optionIcon: 'aui-icon-image',
+                        optionSrc: '',
+                        optionTitle: '我的相册',
+                        optionId: '5'
+                    }, {
+                        optionIcon: 'aui-icon-mail',
+                        optionSrc: '',
+                        optionTitle: '我的文件',
+                        optionId: '6'
+                    }
+
+                ],
+                footerList: [{
+                    optionIcon: 'aui-icon-gear',
+                    optionSrc: '',
+                    optionTitle: '设置',
+                    optionId: '5'
+                }, {
+                    optionIcon: 'aui-icon-date',
+                    optionSrc: '',
+                    optionTitle: '夜间',
+                    optionId: '6'
+                }, {
+                    optionIcon: 'aui-icon-location',
+                    optionSrc: '',
+                    optionTitle: '地区',
+                    optionId: '7'
+                }]
+            },
+            methods: {
+                openNewwin: function(src) {
+                    api.openWin({
+                        name: src,
+                        url: './' + src + '.html',
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: 'auto',
+                            h: 'auto'
+                        },
+                        pageParam: {
+                            name: 'test'
+                        },
+                        progress: {
+                            type: 'page',
+                            color: '#3396fb'
+                        },
+                        bounces: true,
+                        delay: 200
+                    });
+
+                }
+            },
+            mounted: function() {
+
+            },
+            created: function() {
+
+            },
+        })
+    }
+</script>
+
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>share</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .share_s {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .share_s img {
+            width: 80%;
+        }
+    </style>
+</head>
+
+
+<body>
+    <section id="app" class="aui-content">
+        <ul class="aui-row">
+            <li class="aui-col-xs-3 share_s" v-for="(item,index) in shareList" @click="share" tapmode>
+                <img :src="preSrc+item.shareIcon" alt="图片">
+            </li>
+        </ul>
+    </section>
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            preSrc: '../../image/share/',
+            shareList: [{
+                shareID: '1',
+                shareIcon: 'message.png'
+            }, {
+                shareID: '2',
+                shareIcon: 'qq-friend.png'
+            }, {
+                shareID: '3',
+                shareIcon: 'qq-weibo.png'
+            }, {
+                shareID: '4',
+                shareIcon: 'qq.png'
+            }, {
+                shareID: '5',
+                shareIcon: 'qzone.png'
+            }, {
+                shareID: '6',
+                shareIcon: 'sina-weibo.png'
+            }, {
+                shareID: '7',
+                shareIcon: 'wx-circle.png'
+            }, {
+                shareID: '8',
+                shareIcon: 'wx.png'
+            }]
+        },
+        methods: {
+            share: function() {
+                api.toast({
+                    msg: '做不到，分享申请不通过啊！',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        }
+    });
+    apiready = function() {
+        api.parseTapmode();
+
+
+
+
+
+    }
+</script>
+
+</html>

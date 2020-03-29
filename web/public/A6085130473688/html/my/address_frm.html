@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style>
+        .text-light {
+            color: #999 !important;
+        }
+
+        .aui-radio {
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="aui-content" id="app">
+        <div class="aui-card-list" v-for="item in addressList">
+            <div class="aui-card-list-header aui-font-size-14">
+                {{item.telphone}}
+            </div>
+            <div class="aui-card-list-content-padded aui-padded-t-0 text-light">
+                {{item.addressMsg}}
+            </div>
+            <div class="aui-card-list-footer aui-border-t">
+                <div>
+                    <label><input class="aui-radio" type="radio" name="radio" :value="item.addressId" v-model="checkSwitch"> 设为默认</label>
+                </div>
+                <div>
+                    <i class="aui-iconfont aui-icon-edit aui-margin-r-5 aui-font-size-14" @click="editAddress(item.addressId)">编辑</i>
+                    <i class="aui-iconfont aui-icon-trash aui-margin-r-5 aui-margin-l-15 aui-font-size-14" @click="trashAddress(item.addressId)">删除</i>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            addressList: [{
+                addressId: "1",
+                telphone: '31231241241',
+                addressMsg: " 北京市海淀区龙翔路甲1号泰翔商务楼"
+            }, {
+                addressId: "2",
+                telphone: '31231241241',
+                addressMsg: " 北京市海淀区龙翔路甲1号泰翔商务楼"
+            }, {
+                addressId: "3",
+                telphone: '31231241241',
+                addressMsg: " 北京市海淀区龙翔路甲1号泰翔商务楼"
+            }, {
+                addressId: "4",
+                telphone: '31231241241',
+                addressMsg: " 北京市海淀区龙翔路甲1号泰翔商务楼"
+            }, {
+                addressId: "5",
+                telphone: '31231241241',
+                addressMsg: " 北京市海淀区龙翔路甲1号泰翔商务楼"
+            }, {
+                addressId: "6",
+                telphone: '31231241241',
+                addressMsg: " 北京市海淀区龙翔路甲1号泰翔商务楼"
+            }],
+            checkSwitch: '1'
+        },
+        mounted: function() {
+            apiready = function() {
+                api.parseTapmode();
+
+            };
+        },
+        methods: {
+            editAddress: function() {
+                api.openWin({
+                    name: 'newaddress_win',
+                    url: './newaddress_win.html',
+                    pageParam: {
+                        name: 'test'
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    }
+                });
+
+            },
+            trashAddress: function(val) {
+                var _this = this;
+                for (var i = _this.addressList.length - 1; i > 0; i--) {
+                    if (_this.checkSwitch == _this.addressList[i].addressId) {
+                        _this.addressList.splice(i, 1)
+                    }
+                }
+            }
+        }
+    })
+</script>
+
+</html>

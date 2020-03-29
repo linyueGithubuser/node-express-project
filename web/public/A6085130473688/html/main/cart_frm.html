@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>cake</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .item_style {
+            background: #fff;
+        }
+
+        .item_style img {
+            width: 100%;
+        }
+
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .aui-content .item_style p {
+            color: #151515;
+        }
+
+        .aui-content .item_style dl dt:nth-of-type(1) {
+            color: #A5A5A5;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .price_s {
+            color: #724228;
+        }
+
+        .shop_now {
+            background: #151515;
+            color: #fff;
+        }
+
+        .no_active {
+            color: #d2d2d2 !important;
+        }
+
+        .wish_s span:nth-of-type(1) {
+            background: #724228;
+            color: #fff;
+            padding: 4px 6px;
+            text-align: center;
+        }
+
+        .wish_s span:nth-of-type(2) {
+            color: #151515;
+        }
+
+        .aui-bar-btn .aui-bar-btn-item {
+            border-color: #724228;
+        }
+    </style>
+</head>
+
+
+<body>
+    <section class="aui-content" id="app">
+        <div v-if="cakeList == ''">
+            <ul class="aui-row">
+                <li class="aui-col-xs-12 aui-text-center">
+                    <img src="../../image/cake/cartempty.png" alt="购物车为空">
+                    <p class="aui-font-size-16">购物车是空的</p>
+                </li>
+            </ul>
+        </div>
+        <div v-else>
+            <ul class="aui-row item_style" v-for="(item,index) in cakeList">
+                <li class="aui-col-xs-3">
+                    <img :src="preSrc+item.goodsimg" alt="cake">
+                </li>
+                <li class="aui-col-xs-5">
+                    <p class="aui-margin-t-10 aui-margin-l-10 aui-ellipsis-1">{{item.goodsname1}}</p>
+                    <p class="aui-margin-l-10 aui-ellipsis-1">{{item.goodsname2}}</p>
+                    <span class="aui-margin-l-10 price_s">￥ {{cartMsg.productPrice}} 元</span>
+                    <p class="aui-margin-l-10">磅数 {{cartMsg.productB}}</p>
+                    <p class="aui-margin-l-10">餐具 {{cartMsg.productC}} 套</p>
+                    <p class="wish_s" @click="addWish">
+                        <span>生日牌</span>
+                        <span class="aui-margin-l-10 aui-ellipsis-1">{{wish}}</span>
+                    </p>
+                </li>
+                <li class="aui-col-xs-4">
+                    <div class="aui-bar aui-bar-btn" style="width:100%;margin-top:40px;" type="count">
+                        <div class="aui-bar-btn-item aui-font-size-20" @click="minue" tapmode="hover">
+                            <i class="aui-iconfont aui-icon-minus" :class="{'no_active': account == 1}"></i>
+                        </div>
+                        <div class="aui-bar-btn-item">
+                            <input type="number" class="aui-input aui-text-center" v-model="account">
+                        </div>
+                        <div class="aui-bar-btn-item aui-font-size-20" @click="plus" tapmode="hover">
+                            <i class="aui-iconfont aui-icon-plus"></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="aui-row aui-padded-15">
+                <li class="aui-col-xs-12 aui-text-center">
+                    配送至：。。。。
+                </li>
+            </ul>
+            <footer class="aui-bar aui-bar-tab">
+                <div class="aui-bar-tab-item aui-border-r" tapmode style="width: 3rem;">
+                    <div class="aui-bar-tab-label aui-text-info">共计</div>
+                </div>
+                <div class="aui-bar-tab-item" tapmode style="width: 3rem;">
+                    <div class="aui-bar-tab-label aui-text-danger">324.00元</div>
+                </div>
+                <div class="aui-bar-tab-item shop_now" tapmode="hover" style="width: auto;" @click="payDo()">提交订单</div>
+            </footer>
+        </div>
+        <p class="aui-text-center aui-padded-10">--推荐商品--</p>
+        <ul class="aui-row">
+            <li class="aui-col-xs-6 item_style" tapmode="hover" v-for="(item,index) in fiveList">
+                <div tapmode="hover" @click="moreDetail(item)">
+                    <img :src="preSrc+item.goodsimg" alt="cake">
+                    <p class="aui-margin-t-10 aui-margin-l-10 aui-ellipsis-1">{{item.goodsname1}}</p>
+                    <p class="aui-margin-l-10 aui-ellipsis-1">{{item.goodsname2}}</p>
+                    <span class="aui-margin-l-10 price_s">￥ {{item.priceList[0].price}} 元</span>
+                </div>
+                <dl class="aui-row">
+                    <dt class="aui-col-xs-12">
+                        {{item.goodsdes}}
+                    </dt>
+                </dl>
+            </li>
+        </ul>
+        <div class="aui-card-list-footer aui-text-center price_s" v-show='loadOver'>
+            到底啦!
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            preSrc: '../../image/cake/',
+            cakeList: [],
+            cartMsg: "",
+            account: 0,
+            price: 20,
+            wish: "选择生日牌",
+            totalPrice: 0,
+            fiveList: [],
+            loadOver: false
+        },
+        mounted: function() {
+            var _this = this;
+            apiready = function() {
+                api.parseTapmode();
+                init('cartList', function(gn) {
+                    _this.cakeList = gn;
+                });
+
+                init('wish', function(gn) {
+                    _this.wish = gn;
+                });
+
+                init('iceList', function(gn) {
+                    _this.fiveList = gn;
+                })
+                init('cartMsg', function(gn) {
+                    _this.cartMsg = gn;
+                })
+
+                _this.pullRefresh();
+                _this.loadMore();
+            }
+        },
+        methods: {
+            pullRefresh: function() {
+                api.setCustomRefreshHeaderInfo({
+                    bgColor: '#eee',
+                    tips: {
+                        pull: '下拉刷新',
+                        threshold: '松开立即刷新',
+                        load: '正在刷新'
+                    }
+                }, function() {
+                    api.toast({
+                        msg: '刷新成功啦',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    setTimeout(function() {
+                        api.refreshHeaderLoadDone();
+                    }, 300)
+
+                });
+
+            },
+            moreDetail: function(obj) {
+                api.openWin({
+                    name: 'descript_win',
+                    url: '../three/descript_win.html',
+                    pageParam: {
+                        goodID: obj.goodsid
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    delay: 300
+                });
+            },
+            loadMore: function() {
+                var _this = this;
+                api.addEventListener({
+                    name: 'scrolltobottom',
+                    extra: {
+                        threshold: 10
+                    }
+                }, function(ret, err) {
+                    api.parseTapmode();
+                    if (_this.fiveList.length >= 10) {
+                        _this.loadOver = true;
+                        return false;
+                    } else {
+                        setTimeout(function() {
+                            var last = _this.fiveList[_this.fiveList.length - 1];
+                            for (var i = 0; i <= 2; i++) {
+                                _this.fiveList.push(last)
+                            }
+                        })
+                    }
+
+                });
+            },
+            plus: function() {
+                this.account++;
+                this.accountTotal(this.account);
+            },
+            minue: function() {
+                var _this = this;
+                if (this.account <= 1) {
+                    _this.account = 1;
+                    _this.accountTotal(this.account);
+                } else {
+                    _this.account--;
+                    _this.accountTotal(this.account);
+                }
+
+            },
+            accountTotal: function(num) {
+                this.totalPrice = parseInt(this.price) * num;
+            },
+            payDo: function() {
+                api.openWin({
+                    name: 'submitshop',
+                    url: '../three/submitshop.html',
+                    pageParam: {
+                        total: '999'
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        y: 'auto'
+                    },
+                    delay: 300
+                });
+            },
+            changeAds: function() {
+                api.openWin({
+                    name: 'address_win',
+                    url: '../my/address_win.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        y: 'auto'
+                    },
+                    delay: 300
+                })
+            },
+            addWish: function() {
+                api.openWin({
+                    name: 'wish_win',
+                    url: '../wish/wish_win.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        y: 'auto'
+                    },
+                    delay: 300
+                })
+            }
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>order</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .aui-row .aui-col-xs-3 img {
+            width: 30%;
+        }
+
+        .aui-list .aui-list-item-title {
+            color: #724228;
+            font-weight: 400;
+        }
+
+        .active {
+            color: #151515 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="app">
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item" v-for="(item,index) in wishList">
+                <div class="aui-list-item-inner aui-row" @click="selectWish(index,item.wishMsg)" tapmode="hover">
+                    <div class="aui-col-xs-3">
+                        <img src="../../image/cake/select.png" alt="0.0" v-show="index === activeIndex">
+                    </div>
+                    <div class="aui-list-item-title aui-col-xs-9 aui-font-size-20" :class="{'active': index === activeIndex}">{{item.wishMsg}}</div>
+                </div>
+            </li>
+        </ul>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            picked: '',
+            wishList: [{
+                wishMsg: "生日快乐"
+            }, {
+                wishMsg: "happy birthday"
+            }, {
+                wishMsg: "节日快乐"
+            }, {
+                wishMsg: "无"
+            }],
+            activeIndex: Number
+        },
+        mounted: function() {
+          apiready = function() {
+              api.parseTapmode();
+          };
+        },
+        methods: {
+            selectWish: function(num, val) {
+                this.activeIndex = num;
+                var nlsp = new lsp("wish");
+                nlsp.add(val)
+            }
+        }
+    })
+</script>
+
+</html>

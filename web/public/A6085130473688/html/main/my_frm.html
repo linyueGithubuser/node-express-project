@@ -1,0 +1,469 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .text-white {
+            color: #ffffff !important;
+        }
+
+        .text-light {
+            color: #999 !important;
+        }
+
+        .bg-white {
+            background-color: #ffffff;
+        }
+
+        .aui-grid [class*=aui-col-] {
+            padding: 0;
+        }
+
+        .user-info {
+            width: 150%;
+            position: relative;
+            left: -25%;
+            padding-left: 25%;
+            border-bottom-left-radius: 50%;
+            border-bottom-right-radius: 50%;
+            padding-bottom: 1.5rem;
+        }
+
+        .opCp {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            height: 60px;
+            line-height: 60px;
+        }
+
+        .opCp li {
+            width: 60px;
+            height: 100%;
+            text-align: center;
+            color: #fff;
+        }
+
+        .aui-grid .aui-dot {
+            top: 0rem;
+        }
+
+        .label-cont {
+            display: block;
+            height: 1.8rem;
+            line-height: 1.8rem;
+        }
+
+        .label-icon {
+            display: block;
+            width: 1.8rem;
+            height: 1.8rem;
+            border-radius: 50%;
+            margin: 0 auto;
+            line-height: 1.8rem;
+            text-align: center;
+        }
+
+        .label-cont .aui-iconfont {
+            font-size: 1rem;
+        }
+
+        .label-icon .aui-iconfont {
+            color: #ffffff;
+            font-size: 0.8rem;
+        }
+
+        .font-size-26 {
+            font-size: 1.3rem !important;
+        }
+
+        .aui-grid-label {
+            color: #666 !important;
+        }
+
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .item_style {
+            background: #fff;
+        }
+
+        .item_style img {
+            width: 100%;
+        }
+
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .aui-content .item_style p {
+            color: #151515;
+        }
+
+        .aui-content .item_style dl dt:nth-of-type(1) {
+            color: #A5A5A5;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .price_s {
+            color: #724228;
+        }
+
+        .aui-bg-info-s {
+            background: #724228;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 36%;
+            right: 24%;
+            z-index: 9;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部 -->
+    <div id="app">
+        <section class="aui-content bg-white aui-margin-b-15">
+            <div class="aui-list aui-media-list aui-list-noborder aui-bg-info-s user-info">
+                <div class="aui-list-item aui-list-item-middle">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-media" style="width:3rem;" @click="openUser">
+                            <img src="../../image/fixed/pindou.jpeg" class="aui-img-round" alt="头像">
+                        </div>
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text text-white aui-font-size-18">昵称： </div>
+                            <div class="aui-list-item-text text-white">
+                                <div><i class="aui-iconfont aui-icon-mobile aui-font-size-14"></i>账号： {{userAccount}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="opCp">
+                <ul class="aui-row">
+                    <li class="aui-col-xs-4"> <i class="aui-iconfont aui-icon-gear"></i></li>
+                    <li class="aui-col-xs-4"> <i class="aui-iconfont aui-icon-edit"></i></li>
+                    <li class="aui-col-xs-4" @click="openFns"> [ ] </li>
+                </ul>
+            </div>
+            <div class="aui-grid aui-margin-t-15 aui-margin-b-15">
+                <div class="aui-row">
+                    <div class="aui-col-5" v-for="item in firstList" tapmode='hover'>
+                        <i class="aui-iconfont  font-size-26" :class="item.icon"></i>
+                        <div class="aui-grid-label aui-font-size-12">{{item.title}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class=" aui-grid aui-padded-b-15 aui-padded-t-15 aui-border-t">
+                <div class="aui-row">
+                    <div class="aui-col-5" v-for="item in secondList" tapmode='hover' @click="openNewwins('myaccount')">
+                        <big class="label-cont aui-font-size-16">{{item.num}}</big>
+                        <div class="aui-grid-label aui-font-size-12">{{item.title}}</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="aui-content bg-white aui-margin-b-15">
+            <div class=" aui-grid aui-padded-b-15 aui-padded-t-15">
+                <div class="aui-row">
+                    <div class="aui-col-xs-3" v-for="item in threeList" tapmode='hover' @click="openNewwin('kehu')">
+                        <big class="label-cont aui-font-size-16 aui-text-danger">{{item.num}}</big>
+                        <div class="aui-grid-label aui-font-size-12">{{item.title}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class=" aui-grid aui-padded-b-15 aui-padded-t-15 aui-border-t">
+                <div class="aui-row">
+                    <div class="aui-col-xs-3" v-for="item in fourList" tapmode='hover' @click="openNewwin(item.pageUrl)">
+                        <div class="label-icon aui-bg-info-s"><i class=" aui-iconfont" :class="item.icon"></i></div>
+                        <div class="aui-grid-label aui-font-size-12">{{item.title}}</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="aui-content">
+            <ul class="aui-row">
+                <li class="aui-col-xs-6 item_style" tapmode="hover" v-for="(item,index) in fiveList">
+                    <div tapmode="hover" @click="moreDetail(item)">
+
+                        <img :src="preSrc+item.goodsimg" alt="cake">
+
+                        <p class="aui-margin-t-10 aui-margin-l-10 aui-ellipsis-1">{{item.goodsname1}}</p>
+                        <p class="aui-margin-l-10 aui-ellipsis-1">{{item.goodsname2}}</p>
+                        <span class="aui-margin-l-10 price_s">￥ {{item.priceList[0].price}} 元</span>
+                    </div>
+                    <dl class="aui-row">
+                        <dt class="aui-col-xs-12">
+                            {{item.goodsdes}}
+                        </dt>
+                    </dl>
+                </li>
+            </ul>
+            <div class="aui-card-list-footer aui-text-center price_s" v-show='loadOver'>
+                到底啦!
+            </div>
+        </section>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            loadOver: false,
+            userAccount: "",
+            preSrc: '../../image/cake/',
+            firstList: [{
+                icon: 'aui-icon-home',
+                title: '待付款'
+            }, {
+                icon: 'aui-icon-refresh',
+                title: '待收货'
+            }, {
+                icon: 'aui-icon-comment',
+                title: '待评价'
+            }, {
+                icon: 'aui-icon-back',
+                title: '退换/售后'
+            }, {
+                icon: 'aui-icon-calendar',
+                title: '我的订单'
+            }],
+            secondList: [{
+                icon: '',
+                title: '余额',
+                num: '2360.02',
+                src: ''
+            }, {
+                icon: '',
+                title: '优惠券',
+                num: '1',
+                src: ''
+            }, {
+                icon: '',
+                title: '提现',
+                num: '2000.00',
+                src: ''
+            }, {
+                icon: '',
+                title: '积分',
+                num: '256',
+                src: ''
+            }, {
+                icon: 'aui-icon-cert',
+                title: '我的钱包',
+                num: '。。。',
+                src: ''
+            }],
+            threeList: [{
+                icon: '',
+                title: '商品关注',
+                num: '23'
+            }, {
+                icon: '',
+                title: '店铺关注',
+                num: '1'
+            }, {
+                icon: '',
+                title: '浏览记录',
+                num: '100'
+            }, {
+                icon: '',
+                title: '客户服务',
+                num: '028...'
+            }],
+            fourList: [{
+                pageUrl: "about_win",
+                icon: 'aui-icon-my',
+                title: '关于我们'
+            }, {
+                pageUrl: "set_win",
+                icon: 'aui-icon-gear',
+                title: '设置'
+            }],
+            fiveList: []
+        },
+        mounted: function() {
+            var _this = this;
+            apiready = function() {
+                init('iceList', function(gn) {
+                    _this.fiveList = gn;
+                })
+                init('userCount', function(gn) {
+                    if (gn == '') {
+                        _this.userAccount = "未登录"
+                    } else {
+                        _this.userAccount = gn;
+                    }
+                })
+                api.parseTapmode();
+
+                _this.loadMore();
+
+                var FNScanner = api.require('FNScanner');
+
+                api.addEventListener({
+                    name: 'resume'
+                }, function(ret, err) {
+                    FNScanner.onResume();
+                    // alert('应用回到前台');
+                });
+
+                api.addEventListener({
+                   name:'pause'
+               }, function(ret, err){
+                   FNScanner.onPause();
+                  //  alert('应用进入后台');
+               });
+            }
+        },
+        methods: {
+            openFns: function() {
+                var FNScanner = api.require('FNScanner');
+                FNScanner.openScanner({
+                    autorotation: true
+                }, function(ret, err) {
+                    if (ret) {
+                        alert(JSON.stringify(ret));
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+                })
+            },
+            loadMore: function() {
+                var _this = this;
+                api.addEventListener({
+                    name: 'scrolltobottom',
+                    extra: {
+                        threshold: 10
+                    }
+                }, function(ret, err) {
+                    api.parseTapmode();
+                    if (_this.fiveList.length >= 10) {
+                        _this.loadOver = true;
+                        return false;
+                    } else {
+                        setTimeout(function() {
+                            var last = _this.fiveList[_this.fiveList.length - 1];
+                            for (var i = 0; i <= 2; i++) {
+                                _this.fiveList.push(last)
+                            }
+                        }, 300)
+                    }
+
+                });
+            },
+            moreDetail: function(obj) {
+                api.openWin({
+                    name: 'descript_win',
+                    url: '../three/descript_win.html',
+                    pageParam: {
+                        goodID: obj.goodsid
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    delay: 300
+                });
+            },
+            openNewwins: function(val) {
+                var _this = this;
+                api.actionSheet({
+                    title: '查看我的钱包,需要指纹验证',
+                    cancelTitle: '取消',
+                    buttons: ['确认验证']
+                }, function(ret, err) {
+                    if (ret.buttonIndex == 1) {
+                        var touchID = api.require('touchID');
+                        touchID.isValid(function(ret) {
+                            if (ret.status) {
+                                touchID.verify({
+                                    title: '验证指纹'
+                                }, function(ret) {
+                                    if (ret.status) {
+                                        _this.toastTip("验证成功")
+                                        setTimeout(function() {
+                                            _this.openNewwin(val)
+                                        }, 500)
+                                    } else {
+                                        if (ret.code == 0) {
+                                            _this.toastTip("手动输入")
+                                        } else if (ret.code == 1) {
+                                            _this.toastTip("取消验证")
+                                        } else if (ret.code == 2) {
+                                            _this.toastTip("指纹验证失败")
+                                        } else if (ret.code == 3) {
+                                            _this.toastTip("多次验证失败请锁定手机")
+                                        } else {
+                                            _this.toastTip("指纹验证失败")
+                                        }
+                                    }
+                                });
+                            } else {
+                                _this.toastTip("指纹验证失败")
+                            }
+                        });
+                    } else {
+                        _this.toastTip('取消验证')
+                    }
+                });
+            },
+            toastTip: function(val) {
+                api.toast({
+                    msg: val,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            },
+            openNewwin: function(val) {
+                api.openWin({
+                    name: val,
+                    url: '../seconds/' + val + '.html',
+                    pageParam: {
+                        name: 'test'
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    delay: 200
+                });
+            },
+            openUser: function() {
+                api.openWin({
+                    name: 'user_win',
+                    url: '../my/user_win.html',
+                    pageParam: {
+                        name: 'test'
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    delay: 200
+                });
+            }
+        }
+    })
+</script>
+
+</html>

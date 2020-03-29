@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>cake</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .item_style {
+            background: #fff;
+        }
+
+        .item_style img {
+            width: 100%;
+        }
+
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .aui-content .item_style p {
+            color: #151515;
+        }
+
+        .aui-content .item_style dl dt:nth-of-type(1) {
+            color: #A5A5A5;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .price_s {
+            color: #724228;
+        }
+
+        .shop_now {
+            background: #151515;
+            color: #fff;
+        }
+    </style>
+</head>
+
+
+<body>
+    <section id="app">
+        <div class="aui-card-list aui-row">
+            <div class="aui-col-xs-10">
+                <div class="aui-card-list-header aui-font-size-14">
+                    联系电话: 152****0989
+                </div>
+                <div class="aui-card-list-content-padded aui-padded-t-0 text-light">
+                    配送地址: 北京市海淀区龙翔路甲1号泰翔商务楼
+                </div>
+                <div class="aui-card-list-content-padded aui-padded-t-0 text-light">
+                    收货时间: 不限
+                </div>
+            </div>
+
+            <div class="aui-card-list-footer aui-border-t aui-col-xs-2">
+                <div @click="changeAds" class="aui-margin-t-15">
+                    <i class="aui-iconfont aui-icon-right aui-margin-r-5 aui-font-size-14"></i>
+                </div>
+            </div>
+        </div>
+        <p class="aui-text-center"> 应付金额 ￥ 564.00 元</p>
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-header">
+                商品金额 ￥ 564.00 元
+            </li>
+            <li class="aui-list-item aui-row aui-padded-15">
+                <div class="aui-col-xs-6">
+                    运费
+                </div>
+                <div class="aui-col-xs-6 aui-text-right">
+                    ￥0.00元
+                </div>
+            </li>
+        </ul>
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-header">
+                优惠卷
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    选择优惠卷
+                </div>
+            </li>
+        </ul>
+        <ul class="aui-row aui-padded-15">
+            <li class="aui-col-xs-4">
+                600个 果实币
+            </li>
+            <li class="aui-col-xs-4 aui-text-center">
+                可抵扣60.00元
+            </li>
+            <li class="aui-col-xs-4 aui-text-right">
+                <input class="aui-checkbox" type="checkbox" name="checkbox" v-model="checkList" value="60">
+            </li>
+        </ul>
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-header">
+                发票
+            </li>
+            <li class="aui-list-item" @click="openFp">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    不开发票
+                </div>
+            </li>
+        </ul>
+        <ul class="aui-row aui-padded-15">
+            <li class="aui-col-xs-6">
+                还需支付
+            </li>
+            <li class=" aui-col-xs-6 aui-text-right">
+                ￥ 564.00 元
+            </li>
+        </ul>
+        <ul class="aui-padded-15">
+            <li class="aui-padded-10">
+                <label><input class="aui-radio" type="radio" name="radio" value="item.addressId" v-model="checkSwitch"> 在线支付</label>
+            </li>
+            <li class="aui-padded-10">
+                <label><input class="aui-radio" type="radio" name="radio" value="item.addressId" v-model="checkSwitch"> 货到付款</label>
+            </li>
+        </ul>
+        <footer class="aui-bar aui-bar-tab">
+            <div class="aui-bar-tab-item aui-border-r" tapmode style="width: 3rem;">
+                <div class="aui-bar-tab-label aui-text-info">共计</div>
+            </div>
+            <div class="aui-bar-tab-item" tapmode style="width: 3rem;">
+                <div class="aui-bar-tab-label aui-text-danger">324.00元</div>
+            </div>
+            <div class="aui-bar-tab-item shop_now" tapmode="hover" style="width: auto;" @click="payDo()">立即支付</div>
+        </footer>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            checkList: [],
+            checkSwitch: ''
+        },
+        mounted: function() {
+            apiready = function() {
+                api.parseTapmode();
+            }
+        },
+        methods: {
+            toastTip: function(val) {
+                api.toast({
+                    msg: val,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            },
+            openFp: function() {
+                api.openWin({
+                    name: 'fapiao_win',
+                    url: './fapiao_win.html',
+                    pageParam: {
+                        name: 'test'
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    }
+                });
+            },
+            payDo: function() {
+                api.openWin({
+                    name: 'pay_win',
+                    url: './pay_win.html',
+                    pageParam: {
+                        name: 'test'
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    }
+                });
+
+            },
+            changeAds: function() {
+                api.openWin({
+                    name: 'address_win',
+                    url: '../my/address_win.html',
+                    pageParam: {
+                        name: 'test'
+                    }
+                });
+
+            },
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .title_s {
+            color: #724228;
+        }
+
+        .aui-bar-nav.aui-bar-light .aui-iconfont {
+            color: #724228;
+        }
+
+        .shop_nows {
+            background: #724228;
+            color: #fff;
+        }
+
+        .shop_now {
+            background: #151515;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav aui-bar-light" id="aui-header">
+        <a class="aui-btn aui-pull-left title_s" tapmode="hover" onclick="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title title_s">商品详情</div>
+    </header>
+    <footer class="aui-bar aui-bar-tab" id="footer">
+        <div class="aui-bar-tab-item title_s" tapmode="hover" style="width: 3rem;" onclick="wxShare()">
+            <i class="aui-iconfont aui-icon-comment"></i>
+            <div class="aui-bar-tab-label">分享</div>
+        </div>
+        <div class="aui-bar-tab-item title_s" tapmode="hover" style="width: 3rem;">
+            <i class="aui-iconfont aui-icon-star"></i>
+            <div class="aui-bar-tab-label">收藏</div>
+        </div>
+        <div class="aui-bar-tab-item shop_nows" tapmode="hover" style="width: auto;" onclick="shopping()">加入购物车</div>
+        <div class="aui-bar-tab-item shop_now" tapmode="hover" style="width: auto;" onclick="shopDo()">立即购买</div>
+    </footer>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript">
+    var goodID;
+    var wx;
+    apiready = function() {
+        api.parseTapmode();
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var headerPos = $api.offset(header);
+        var body_h = $api.offset($api.dom('body')).h;
+        var footerH = $api.offset($api.byId('footer')).h;
+        wx = api.require('wx');
+
+        goodID = api.pageParam.goodID;
+
+        api.openFrame({
+            name: 'descript_frm',
+            url: './descript_frm.html',
+            bounces: true,
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: api.winHeight - headerPos.h - footerH
+            },
+            pageParam: {
+                goodID: goodID
+            }
+        })
+
+    };
+
+    function closeWin() {
+        api.closeWin();
+    }
+
+    function shopping() {
+        var postList = [];
+        var goodList = {};
+
+        init("cakeList", function(gn) {
+            postList = gn;
+        });
+        init('teaList', function(gn) {
+            postList.push(gn);
+        });
+        init('giftList', function(gn) {
+            postList.push(gn);
+        });
+        init('iceList', function(gn) {
+            postList.push(gn);
+        });
+
+        postList.forEach(function(val) {
+            if (goodID == val.goodsid) {
+                goodList = val;
+            } else {
+                return false;
+            }
+        })
+
+
+
+        var Produtmsg = {
+            productPrice: goodList.priceList[0].price,
+            productB: goodList.bongsList[0].bongs,
+            productC: goodList.canjuList[0].canju
+        }
+
+        init('cartList', function(gn) {
+            gn.push(goodList);
+            var nlsp = new lsp("cartList");
+            nlsp.add(gn);
+        });
+
+        var nlsp = new lsp("cartMsg");
+        nlsp.add(Produtmsg);
+    }
+
+    function shopDo() {
+        api.openWin({
+            name: 'cart_win',
+            url: '../main/cart_win.html',
+            pageParam: {
+                total: "999.00"
+            },
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            delay: 200
+        });
+    }
+
+    function wxShare() {
+        wx.isInstalled(function(ret, err) {
+            if (ret.installed) {
+                wx.shareWebpage({
+                    apiKey: '',
+                    scene: 'timeline',
+                    title: '小幸运 small cake',
+                    description: '小幸运-蛋糕，有生之年遇见你，就是我的幸运！',
+                    thumb: 'widget://image/cake/logo.png',
+                    contentUrl: 'http://downloadpkg.apicloud.com/app/download?path=http://80apdi.com1.z0.glb.clouddn.com/92aa773e87f353a6b90c155b4e713fca_d'
+                }, function(ret, err) {
+                    if (ret.status) {
+                        api.toast({
+                            msg: "分享成功",
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.code,
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    }
+                });
+
+            } else {
+                api.toast({
+                    msg: "未安装微信客户端",
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        });
+
+    }
+</script>
+
+</html>

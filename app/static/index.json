@@ -1,0 +1,61 @@
+{
+    "swiper": [
+    {
+        "id": "1",
+        "title": "标题1",
+        "image": "../../static/images/banner1.png"
+    },
+    {
+        "id": "2",
+        "title": "标题2",
+        "image": "../../static/images/banner2.png"
+    }],
+    "titleList":[
+      {
+        "id":1,
+        "name":"蛋糕",
+        "src":"../../static/images/home-cake.png"
+      },
+      {
+        "id":2,
+        "name":"冰淇淋",
+        "src":"../../static/images/home-ice.png"
+      },
+      {
+        "id":3,
+        "name":"下午茶",
+        "src":"../../static/images/home-coffee.jpg"
+      },
+      {
+        "id":4,
+        "name":"企业专区",
+        "src":"../../static/images/home-gift.png"
+      }
+    ],
+    "topList": [
+    {
+        "id": "21647",
+        "title": "水果蛋糕",
+        "image": "/images/top-list1.png"
+    },
+    {
+        "id": "21648",
+        "title": "水果蛋糕",
+        "image": "/images/top-list1.png"
+    },
+    {
+        "id": "21648",
+        "title": "水果蛋糕",
+        "image": "/images/top-list1.png"
+    },
+    {
+        "id": "21648",
+        "title": "水果蛋糕",
+        "image": "/images/top-list1.png"
+    },
+    {
+        "id": "21648",
+        "title": "水果蛋糕",
+        "image": "/images/top-list1.png"
+    }]
+}

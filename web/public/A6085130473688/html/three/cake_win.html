@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>分类</title>
+    <link rel="stylesheet" href="../../css/aui.css">
+    <style>
+        .navbar-shadow {
+            width: 100%;
+            display: block;
+            position: relative;
+            border-bottom: 1px solid #d2d2d2;
+            box-shadow: 2px 2px 2px #d2d2d2;
+        }
+
+        .navBar_bar {
+            display: inline-block;
+            width: 25%;
+            height: 4px;
+        }
+
+        .navInnerBar {
+            display: block;
+            width: 85%;
+            height: 2px;
+            margin: 0 auto;
+            border-bottom: 2px solid #724228;
+        }
+
+        .tap-active {
+            color: #724228;
+        }
+
+        .active {
+            color: #724228;
+        }
+
+        .headers {
+            height: 60px;
+            line-height: 60px;
+        }
+
+        .headers img {
+            height: 60px;
+            margin: 0 auto;
+        }
+
+        .headers span {
+            color: #724228;
+        }
+
+        .aui-content .aui-row .aui-col-xs-3 {
+            text-align: center;
+        }
+
+        .header_nav {
+            background: #fff;
+        }
+
+        .cart {
+            position: fixed;
+            right: 2rem;
+            bottom: 5rem;
+            background: #151515;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .cart span {
+            top: 0;
+            left: 2px;
+        }
+
+        .cart img {
+            width: auto;
+            padding: 0.5rem;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="header_nav">
+        <header class="aui-content headers">
+            <div class="aui-row">
+                <div class="aui-col-xs-2" onclick="closeWin()">
+                    <span class="aui-iconfont aui-icon-left aui-margin-l-10"></span>
+                </div>
+                <div class="aui-col-xs-8">
+                    <img src="../../image/cake/logo.png" alt="LOGO">
+                </div>
+                <div class="aui-col-xs-2"></div>
+            </div>
+        </header>
+        <nav class="navbar-shadow aui-content">
+            <ul id="navBar_fun" class="aui-row">
+                <li class="navBar_btn active aui-col-xs-3" onclick="jumpToBC(0);" tapmode="tap-active">蛋糕</li>
+                <li class="navBar_btn aui-col-xs-3" onclick="jumpToBC(1);" tapmode="tap-active">冰淇淋</li>
+                <li class="navBar_btn aui-col-xs-3" onclick="jumpToBC(2);" tapmode="tap-active">下午茶</li>
+                <li class="navBar_btn aui-col-xs-3" onclick="jumpToBC(3);" tapmode="tap-active">礼品</li>
+                <span class="navBar_bar">
+                  <span class="navInnerBar"></span>
+                </span>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="cart" @click="cartFrm" tapmode>
+        <span class="aui-badge cartCount" v-if="account == 0"></span>
+        <span class="aui-badge cartCount" v-else>{{account}}</span>
+        <img src="../../image/cake/gwc.png" alt="cart">
+    </div>
+
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    var navBarFun = $api.dom('#navBar_fun');
+    var funH = $api.offset(navBarFun).h;
+    var aNavBarBtn = $api.domAll('#navBar_fun .navBar_btn');
+    var navBarBar = $api.dom('#navBar_fun .navBar_bar');
+    var setNavBarBtn = function(index) {
+        $api.addCls(aNavBarBtn[index], 'active');
+        navBarBar.style.webkitTransform = 'translateX(' + index * 100 + '%)';
+        for (var i = 0; i < 4; i++) {
+            if (i != index) {
+                $api.removeCls(aNavBarBtn[i], 'active');
+            }
+        }
+    };
+
+    function jumpToBC(index) {
+        setNavBarBtn(index);
+
+        api.setFrameGroupIndex({
+            name: 'classfiy',
+            index: index,
+            scroll: true
+        });
+    };
+
+    apiready = function() {
+        var header = $api.dom('.header_nav');
+        $api.fixStatusBar(header);
+        var headerPos = $api.offset(header);
+        var leiNum = api.pageParam.leiNum;
+
+        var data = {
+            account: 0
+        };
+
+        init("cartList", function(gn) {
+            if (gn == null) {
+                data.account = 0;
+            } else {
+                data.account = gn.length;
+            }
+        })
+
+        var vm = new Vue({
+            el: ".cart",
+            data: data,
+            methods: {
+               cartFrm: function() {
+                    api.openWin({
+                        name: 'cart_win',
+                        url: '../main/cart_win.html',
+                        pageParam: {
+                            name: 'test'
+                        },
+                        rect: {
+                          x: 0,
+                          y: 0,
+                          w: 'auto',
+                          h: 'auto'
+                        }
+                    });
+
+               }
+            }
+        })
+
+        api.openFrameGroup({
+            name: 'classfiy',
+            background: '#EEEEF0',
+            scrollEnabled: true,
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: 'auto'
+            },
+            index: leiNum,
+            frames: [{
+                name: 'cake_frm',
+                url: './cake_frm.html',
+                bgColor: '#fff',
+                bounces: true
+            }, {
+                name: 'icecream_frm',
+                url: './icecream_frm.html',
+                bgColor: '#fff',
+                bounces: true
+            }, {
+                name: 'tea_frm',
+                url: './tea_frm.html',
+                bgColor: '#fff',
+                bounces: true
+            }, {
+                name: 'gift_frm',
+                url: './gift_frm.html',
+                bgColor: '#fff',
+                bounces: true
+            }]
+        }, function(ret, err) {
+            // var name = ret.name;
+            var index = ret.index;
+            setNavBarBtn(index);
+        });
+    }
+
+    function closeWin() {
+        api.closeWin();
+    }
+</script>
+
+</html>

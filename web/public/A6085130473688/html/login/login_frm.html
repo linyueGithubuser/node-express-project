@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style>
+        .login-third {
+            margin-top: 3rem;
+        }
+
+        .btn_bg {
+            background: #724228;
+            color: #fff;
+        }
+
+        .btn_bg_l {
+            background: #151515;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <section class="aui-content aui-margin-t-15">
+            <ul class="aui-list aui-form-list">
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-label aui-border-r color-orange">
+                            手机号 <small class="aui-margin-l-5 aui-text-warning">+86</small>
+                        </div>
+                        <div class="aui-list-item-input aui-padded-l-10">
+                            <input type="number" pattern="[0-9]*" placeholder="输入手机号" v-model="phone">
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-input" style="width: auto;">
+                            <input type="number" pattern="^1[345678][0-9]{9}$" placeholder="输入短信验证码" v-model="codeValue">
+                        </div>
+                        <div class="aui-list-item-label aui-margin-r-15" style="width: 6rem;">
+                            <button type="button" class="aui-btn btn_bg" style="width: 6rem;" @click="getCode" ref="codes" :disabled="disabled">获取验证码</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="aui-content-padded">
+            <div class="aui-btn aui-btn-block aui-btn-sm btn_bg_l" tapmode @click="openNewWin">登录</div>
+        </section>
+        <section class="aui-content-padded login-third">
+            <p class="aui-font-size-12 aui-text-center aui-margin-b-15">第三方账号登录</p>
+            <div class="aui-grid" style="background: none;">
+                <div class="aui-row">
+                    <div class="aui-col-xs-4">
+                        <i class="aui-iconfont aui-icon-qq" @click="login"></i>
+                    </div>
+                    <div class="aui-col-xs-4">
+                        <i class="aui-iconfont aui-icon-wechat" @click="login"></i>
+                    </div>
+                    <div class="aui-col-xs-4">
+                        <i class="aui-iconfont aui-icon-weibo" @click="login"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            disabled: false,
+            codeValue: "",
+            nums: "",
+            phone: ""
+        },
+        methods: {
+            login: function() {
+                this.toastActive("要交几百RMB, 第三方暂时不能登录");
+            },
+            openNewWin: function() {
+                var _this = this;
+                var nlsp = new lsp("userCount");
+                nlsp.add(_this.phone);
+                if (this.codeValue === this.nums && this.codeValue != '') {
+                    api.openSlidLayout({
+                        type: 'left',
+                        fixedPane: {
+                            name: 'homefixed',
+                            url: '../homefixed.html',
+                            bgColor: '#fff'
+                        },
+                        slidPane: {
+                            name: 'homeslider',
+                            url: '../homeslider.html',
+                            bgColor: '#fff'
+                        }
+                    }, function(ret, err) {
+                        /*暂时不做其他处理*/
+                    });
+                } else {
+                    _this.toastActive("验证码错误")
+                }
+            },
+            getCode: function() {
+                this.nums = ""
+                var val = 4;
+                this.disabled = true;
+                this.newCode(val);
+            },
+            newCode: function(val) {
+                var num = '';
+                var _this = this;
+                var timer = setInterval(function() {
+                    val--;
+                    _this.$refs.codes.innerText = "" + val + ""
+                    if (val < 0) {
+                        clearInterval(timer);
+                        _this.$refs.codes.innerText = "获取验证码";
+                        _this.disabled = false;
+                        return false;
+                    } else {
+                        num = Math.floor(Math.random() * 10 + 1);
+                        _this.nums += num;
+                    }
+                }, 1000);
+
+                setTimeout(function() {
+                    _this.toastActive(_this.nums)
+                }, 5000)
+            },
+            toastActive: function(val) {
+                api.toast({
+                    msg: val,
+                    duration: 4000,
+                    location: 'bottom'
+                });
+            }
+        },
+        mounted: function() {
+            apiready = function() {
+                api.parseTapmode();
+            };
+        }
+    })
+</script>
+
+</html>

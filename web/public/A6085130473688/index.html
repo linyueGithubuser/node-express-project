@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>APP</title>
+</header>
+
+<body>
+
+</body>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+        api.setStatusBarStyle({
+            style: 'dark',
+            color: 'rgba(0,0,0,0)'
+        });
+
+        api.openSlidLayout({
+            type: 'left',
+            fixedPane: {
+                name: 'homefixed',
+                url: './html/homefixed.html',
+                bgColor: '#fff'
+            },
+            slidPane: {
+                name: 'homeslider',
+                url: './html/homeslider.html',
+                bgColor: '#fff'
+            }
+        }, function(ret, err) {
+            /*暂时不做其他处理*/
+        });
+
+    }
+</script>
+
+</html>

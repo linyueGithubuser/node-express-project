@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>cake</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .item_style {
+            background: #fff;
+        }
+
+        .item_style img {
+            width: 100%;
+        }
+
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .aui-content .item_style p {
+            color: #151515;
+        }
+
+        .aui-content .item_style dl dt:nth-of-type(1) {
+            color: #A5A5A5;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .price_s {
+            color: #724228;
+        }
+
+        .shop_now {
+            background: #151515;
+            color: #fff;
+        }
+    </style>
+</head>
+
+
+<body>
+    <section id="app">
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-header aui-text-center">
+                    共计 {{total}} 元
+                </li>
+                <li class="aui-list-item aui-list-item-middle" tapmode='hover' v-for="item in payList">
+                    <div class="aui-media-list-item-inner" @click="payTips" tapmode>
+                        <div class="aui-list-item-media" style="width: 3rem;">
+                            <img :src="item.payImg" class="aui-img-round aui-list-img-sm" alt="logo" />
+                        </div>
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">{{item.payWay}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.parseTapmode();
+        // var total = api.pageParam.total
+        var data = {
+            total: "324",
+            payList: [{
+                payID: "1",
+                payWay: "支付宝",
+                payImg: "../../image/cake/zfb.png"
+            }, {
+                payID: "2",
+                payWay: "微信",
+                payImg: "../../image/cake/weixin.png"
+            }, {
+                payID: "3",
+                payWay: "中国工商银行",
+                payImg: "../../image/bank/gongs.png"
+            }, {
+                payID: "4",
+                payWay: "中国建设银行",
+                payImg: "../../image/bank/jians.png"
+            }, {
+                payID: "5",
+                payWay: "中国邮政银行",
+                payImg: "../../image/bank/youz.png"
+            }]
+        }
+        var vm = new Vue({
+            el: "#app",
+            data: data,
+            methods: {
+                payTips: function() {
+                    var _this = this;
+                    var dialogBox = api.require('dialogBox');
+                    dialogBox.scene({
+                        rect: {
+                            w: 280,
+                            h: 240
+                        },
+                        texts: {
+                            title: '指纹确认',
+                            okBtnTitle: '确定'
+                        },
+                        styles: {
+                            bg: '#fff',
+                            corner: 2,
+                            title: {
+                                bg: '#fff',
+                                h: 44,
+                                size: 14,
+                                color: '#724228'
+                            },
+                            sceneImg: {
+                                h: 150,
+                                path: 'widget://image/touch/touch.jpeg'
+                            },
+                            ok: {
+                                bg: '#151515',
+                                titleColor: '#fff',
+                                h: 40
+                            }
+                        },
+                        optionDatas: []
+                    }, function(ret, err) {
+                        if (ret.eventType == 'ok') {
+                            var touchID = api.require('touchID');
+                            touchID.isValid(function(ret) {
+                                if (ret.status) {
+                                    touchID.verify({
+                                        title: '验证指纹'
+                                    }, function(ret) {
+                                        if (ret.status) {
+                                            _this.toastTip("验证成功")
+                                            _this.openNewwin();
+                                        } else {
+                                            if (ret.code == 0) {
+                                                _this.toastTip("手动输入")
+                                            } else if (ret.code == 1) {
+                                                _this.toastTip("取消验证")
+                                            } else if (ret.code == 2) {
+                                                _this.toastTip("指纹验证失败")
+                                            } else if (ret.code == 3) {
+                                                _this.toastTip("多次验证失败请锁定手机")
+                                            } else {
+                                                _this.toastTip("指纹验证失败")
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    _this.toastTip("指纹验证失败")
+                                }
+                            });
+
+                            var dialogBox = api.require('dialogBox');
+                            dialogBox.close({
+                                dialogName: 'scene'
+                            });
+                        } else {
+                            _this.toastTip("指纹验证失败")
+                            var dialogBox = api.require('dialogBox');
+                            dialogBox.close({
+                                dialogName: 'scene'
+                            });
+                        }
+                    });
+                },
+                toastTip: function(val) {
+                    api.toast({
+                        msg: val,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                },
+                openNewwin: function() {
+                    api.openWin({
+                        name: 'order_win',
+                        url: '../my/order_win.html',
+                        pageParam: {
+                            name: 'test'
+                        },
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: 'auto',
+                            h: 'auto'
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+</script>
+
+</html>

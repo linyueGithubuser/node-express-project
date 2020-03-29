@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>set</title>
+    <link rel="stylesheet" href="../css/aui.css">
+    <style media="screen">
+        .userInfo {
+            position: absolute;
+            top: 60px;
+            width: 100%;
+            color: #fff;
+        }
+
+        .userInfo .box_s {
+            width: 80px;
+            overflow: hidden;
+            border-radius: 50%
+        }
+
+        .userInfo .box_s img {
+            width: 80px;
+        }
+
+        .bg {
+            position: relative;
+            height: 160px;
+            width: 100%;
+            background: url("../image/fixed/apicloud-bg.png") no-repeat center center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="bg" id="userInfos">
+            <div class="userInfo">
+                <ul class="aui-row">
+                    <li class="aui-col-xs-4" tapmode='hover' @click="changeUserheadInfo">
+                        <div class="box_s aui-margin-l-15">
+                            <img :src="userIcon" alt="头像">
+                        </div>
+                    </li>
+                    <li class="aui-col-xs-8">
+                        <span>木木</span>
+                    </li>
+                    <li>编辑个性签名 <i class="aui-iconfont aui-icon-pencil"></i> </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+</body>
+<script type="text/javascript" src="../script/vue.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var header = $api.dom('header');
+        var headerPos = $api.offset(header);
+        api.openFrame({
+            name: 'homefixedmenu',
+            url: './main/homefixedmenu.html',
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: 'auto'
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,0)'
+        });
+
+        var vm = new Vue({
+            el: "#userInfos",
+            data: {
+                userIcon: "../image/fixed/pindou.jpeg"
+            },
+            methods: {
+                changeUserheadInfo: function() {
+                    var _this = this;
+                    api.actionSheet({
+                        cancelTitle: '取消',
+                        buttons: ['拍照', '相册选取']
+                    }, function(ret, err) {
+                        if (ret.buttonIndex == 1) {
+                            _this.getCamer('camera')
+                        } else if (ret.buttonIndex == 2) {
+                            _this.getCamer('album')
+                        } else {
+                            var dialogBox = api.require('dialogBox');
+                            dialogBox.close({
+                                dialogName: 'scene'
+                            });
+                        }
+                    });
+                },
+                getCamer: function(val) {
+                    var _this = this;
+                    api.getPicture({
+                        sourceType: val,
+                        encodingType: 'jpg',
+                        mediaValue: 'pic',
+                        destinationType: 'url',
+                        allowEdit: true,
+                        quality: 50,
+                        targetWidth: 100,
+                        targetHeight: 100,
+                        saveToPhotoAlbum: true
+                    }, function(ret, err) {
+                        if (ret) {
+                            _this.userIcon = ret.data;
+                        } else {
+                            _this.toastTip(err);
+                            _this.userIcon = _this.userIcon;
+                        }
+                    });
+                },
+                toastTip: function(val) {
+                    api.toast({
+                        msg: val,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+            }
+        })
+    };
+</script>
+
+</html>

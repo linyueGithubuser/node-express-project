@@ -1,0 +1,176 @@
+[
+  {
+    "jg": "￥198.00",
+    "gg": "13x13cm",
+    "rs": "适合3-4人分享",
+    "cj": "含5套餐具",
+    "yd": "须提前6小时预定",
+    "tp": "static/images/1.0.jpg",
+    "bs": "1.0磅"
+  },
+  {
+    "jg": "￥258.00",
+    "gg": "15x15cm",
+    "rs": "适合5-6人分享",
+    "cj": "含5套餐具",
+    "yd": "须提前6小时预定",
+    "tp": "static/images/1.5.jpg",
+    "bs": "1.5磅"
+  },
+  {
+    "jg": "￥298.00",
+    "gg": "17x17cm",
+    "rs": "适合7-8人分享",
+    "cj": "含10套餐具",
+    "yd": "须提前6小时预定",
+    "tp": "static/images/2.0.jpg",
+    "bs": "2.0磅"
+  },
+  {
+    "jg": "￥458.00",
+    "gg": "22x22cm",
+    "rs": "适合11-12人分享",
+    "cj": "含15套餐具",
+    "yd": "须提前6小时预定",
+    "tp": "static/images/3.0.jpg",
+    "bs": "5.0"
+  },
+  {
+    "jg": "￥750.00",
+    "gg": "30x30cm",
+    "rs": "适合15-20人分享",
+    "cj": "含20套餐具",
+    "yd": "须提前6小时预定",
+    "tp": "static/images/5.0.jpg",
+    "bs": "5.0磅"
+  },
+
+
+
+
+  {
+    "banner":"static/images/zr1.jpg",
+    "yw":"Mango Cream Cake",
+    "mz":"芒果奶油蛋糕",
+    "s1":"乳脂奶油",
+    "s2":"水果",
+    "s3":"新品",
+    "ms1":"2000人评测，定义鲜果奶油蛋糕合理价格：2磅/198元",
+    "xqt1":"static/images/zr2.jpg",
+    "xqt2":"static/images/zr3.jpg",
+    "xqt3":"static/images/zr4.jpg",
+    "xqt4":"static/images/zr5.jpg",
+    "xqt5":"static/images/zr6.jpg"
+  },
+  {
+    "banner":"static/images/zr18.jpg",
+    "yw":"Heartfelt Wish",
+    "mz":"心语心愿",
+    "s1":"乳脂奶油",
+    "s2":"含酒",
+    "s3":"慕斯",
+    "ms1":"蛋糕坯的颗粒感平衡奶油的软滑",
+    "xqt1":"static/images/zr11.jpg",
+    "xqt2":"static/images/zr12.jpg",
+    "xqt3":"static/images/zr13.jpg",
+    "xqt5":"static/images/zr6.jpg"
+  },
+  {
+    "banner":"static/images/cake2.jpg",
+    "yw":"Bailey‘s Love Triangle",
+    "mz":"百利甜情人",
+    "s1":"乳脂奶油",
+    "s2":"水果",
+    "s3":"含酒",
+    "ms1":"当日空运玫瑰裱花，双层芒果夹心",
+    "xqt1":"static/images/zr57.jpg",
+    "xqt2":"static/images/zr58.jpg",
+    "xqt3":"static/images/zr59.jpg",
+    "xqt5":"static/images/zr60.jpg"
+  },
+  {
+    "banner":"static/images/zr20.jpg",
+    "yw":"Birthday Cake",
+    "mz":"21cake生日奶油蛋糕",
+    "s1":"乳酪奶油",
+    "s2":"乳脂",
+    "s3":"慕斯",
+    "ms1":"月光如果可以凝固，一定是芝士慕斯的味道",
+    "xqt1":"static/images/zr22.jpg",
+    "xqt2":"static/images/zr23.jpg",
+    "xqt3":"static/images/zr24.jpg",
+    "xqt4":"static/images/zr25.jpg",
+    "xqt5":"static/images/zr26.jpg",
+    "xqt6":"static/images/zr27.jpg",
+    "xqt7":"static/images/zr28.jpg",
+    "xqt8":"static/images/zr29.jpg",
+    "xqt9":"static/images/zr30.jpg"
+  },
+
+
+
+  {
+    "banner":"static/images/zr32.jpg",
+    "yw":"Latte Gelato",
+    "mz":"拿铁冰淇淋",
+    "s1":"冰淇淋",
+    "s2":"冰淇淋",
+    "s3":"冰淇淋",
+    "p":"巴氏杀菌鲜牛奶,新西兰乳脂奶油 凝冻工艺，技术性越过大冰晶生成带 30%空气含量，超意大利传统工艺 无任何乳化剂，拒绝防腐剂，-18℃恒温配送 由此而来的，醇厚·保质期只有10甜的高密度意式Gelato10冰淇淋",
+    "xqt1":"static/images/zr35.jpg",
+    "xqt2":"static/images/zr36.jpg",
+    "xqt3":"static/images/zr37.png"
+
+  },
+
+
+
+
+  {
+    "banner":"static/images/zr38.jpg",
+    "yw":"PineStone Cowboy",
+    "mz":"小切块-松仁淡奶",
+    "s1":"乳脂奶油",
+    "s2":"坚果",
+    "s3":"巧克力",
+    "xqt1":"static/images/zr42.jpg",
+    "xqt2":"static/images/zr43.jpg",
+    "xqt3":"static/images/zr44.jpg"
+  },
+  {
+    "banner":"static/images/zr39.jpg",
+    "yw":"Mango Jerry",
+    "mz":"小切块-芒果慕斯",
+    "s1":"乳脂奶油",
+    "s2":"慕斯",
+    "s3":"水果",
+    "xqt1":"static/images/zr45.jpg",
+    "xqt2":"static/images/zr46.jpg",
+    "xqt3":"static/images/zr47.jpg",
+    "xqt4":"static/images/zr48.jpg"
+  },
+  {
+    "banner":"static/images/zr40.jpg",
+    "yw":"Cappuccino",
+    "mz":"小切块-卡布奇诺",
+    "s1":"乳脂奶油",
+    "s2":"咖啡",
+    "s3":"水果",
+    "xqt1":"static/images/zr49.jpg",
+    "xqt2":"static/images/zr50.jpg",
+    "xqt3":"static/images/zr51.jpg",
+    "xqt4":"static/images/zr52.jpg"
+  },
+  {
+    "banner":"static/images/zr41.jpg",
+    "yw":"Matcha & Chestnut Mousse",
+    "mz":"小切块-抹茶和栗慕斯",
+    "s1":"乳脂奶油",
+    "s2":"慕斯",
+    "s3":"坚果",
+    "xqt1":"static/images/zr53.jpg",
+    "xqt2":"static/images/zr54.jpg",
+    "xqt3":"static/images/zr55.jpg",
+    "xqt4":"static/images/zr56.jpg"
+  }
+]

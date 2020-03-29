@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>share</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .userInfo {
+            background: #fff;
+            background-size: cover;
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .userInfo_h {
+            margin-top: 12%;
+        }
+
+        .userInfo_h img {
+            width: 40%;
+            margin: 0 auto;
+        }
+
+        .userInfo_h p {
+            color: #151515;
+        }
+
+        .text_color {
+            color: #d2d2d2;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <section class="aui-content" id="app">
+        <div class="aui-row userInfo">
+            <div class="userInfo_h" @click="changeUserheadInfo">
+                <div class="aui-col-xs-4">
+                    <img :src="userInitImg" alt="" v-if="userImg == ''">
+                    <img :src="userImg" alt="" v-else>
+                </div>
+                <div class="aui-col-xs-8">
+                    <p>用户名</p>
+                    <p>VIP: 砖石会员</p>
+                </div>
+            </div>
+        </div>
+        <ul class="aui-list">
+            <li class="aui-row aui-padded-10 aui-margin-10 aui-list-item">
+                <div class="aui-col-xs-6">
+                    昵称
+                </div>
+                <div class="aui-col-xs-6 aui-text-right">
+                    smalllucky cake<i class="aui-iconfont aui-icon-right"></i>
+                </div>
+            </li>
+            <li class="aui-row aui-padded-10 aui-margin-10 aui-list-item">
+                <div class="aui-col-xs-6">
+                    用户名
+                </div>
+                <div class="aui-col-xs-6 aui-text-right text_color">
+                    smalllucky cake
+                </div>
+            </li>
+        </ul>
+        <ul class="aui-list">
+            <li class="aui-row aui-padded-10 aui-margin-10 aui-list-item">
+                <div class="aui-col-xs-10">
+                    收货地址
+                </div>
+                <div class="aui-col-xs-2 aui-text-right">
+                    <i class="aui-iconfont aui-icon-right"></i>
+                </div>
+            </li>
+            <li class="aui-row aui-padded-10 aui-margin-10 aui-list-item">
+                <div class="aui-col-xs-10">
+                    生日
+                </div>
+                <div class="aui-col-xs-2 aui-text-right">
+                    <i class="aui-iconfont aui-icon-right"></i>
+                </div>
+            </li>
+        </ul>
+    </section>
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            userImg: "",
+            userInitImg: "../../image/fixed/pindou.jpeg"
+        },
+        mounted: function() {
+            apiready = function() {
+                api.parseTapmode();
+            }
+        },
+        methods: {
+            changeUserheadInfo: function() {
+                var _this = this;
+                api.actionSheet({
+                    cancelTitle: '取消',
+                    buttons: ['拍照', '相册选取']
+                }, function(ret, err) {
+                    if (ret.buttonIndex == 1) {
+                        _this.getCamer('camera')
+                    } else if (ret.buttonIndex == 2) {
+                        _this.getCamer('album')
+                    } else {
+                        var dialogBox = api.require('dialogBox');
+                        dialogBox.close({
+                            dialogName: 'scene'
+                        });
+                    }
+                });
+            },
+            getCamer: function(val) {
+                var _this = this;
+                api.getPicture({
+                    sourceType: val,
+                    encodingType: 'jpg',
+                    mediaValue: 'pic',
+                    destinationType: 'url',
+                    allowEdit: true,
+                    quality: 50,
+                    targetWidth: 100,
+                    targetHeight: 100,
+                    saveToPhotoAlbum: true
+                }, function(ret, err) {
+                    if (ret) {
+                        _this.userImg = ret.data;
+                    } else {
+                        _this.toastTip(err);
+                    }
+                });
+            },
+            toastTip: function(val) {
+                api.toast({
+                    msg: val,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        }
+    })
+</script>
+
+</html>

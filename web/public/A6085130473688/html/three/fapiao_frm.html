@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>order</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .active {
+            border: 1px solid #724228;
+        }
+
+        #pageMsg {
+            margin-top: 20px;
+        }
+
+        .page_title {
+            height: 42px;
+            line-height: 42px;
+        }
+
+        .title_parent {
+            padding: 10px 0;
+            background: #fff;
+        }
+
+        .page_title span {
+            display: inline-block;
+            width: 60%;
+            height: 100%;
+            color: #151515;
+        }
+
+        .add_ads {
+            background: #151515;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="pageMsg">
+        <h5 class="aui-padded-15 aui-bg-default">发票类型</h5>
+        <ul class="aui-row title_parent">
+            <li class="aui-col-xs-4 aui-text-center page_title" v-for="item in pageList">
+                <span @click="changeCard(item.pageId)" tapmode="hover" :class="{'active':flag == item.pageId }">{{item.pageName}}</span>
+            </li>
+        </ul>
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-header">
+                发票信息
+            </li>
+            <li v-show="flag == 1">
+                <ul>
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-title">
+                                <label>
+                                  <input class="aui-radio" type="radio" name="radio" value="item.addressId" v-model="checkSwitch"> 个人
+                              </label>
+                                <label class="aui-margin-l-10">
+                                  <input class="aui-radio" type="radio" name="radio" value="item.addressId" v-model="checkSwitch"> 公司
+                              </label>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item aui-margin-t-10">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-title">
+                                发票抬头
+                                <input type="text" placeholder="个人（不可修改）">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item aui-margin-t-10">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-title">
+                                手机号
+                                <input type="text" placeholder="请输入常用手机号">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item aui-margin-t-10">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-title">
+                                <p> 1、电子发票与纸质发票具备同等法律效应，可作为用户维权、保修的有效凭据</p>
+                                <p> 2、请确保开票抬头的准确性，开票成功后无法修改</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <footer class="aui-bar aui-bar-tab" id="footer">
+                    <div class="aui-bar-tab-item aui-padded-l-15 aui-padded-r-15" tapmode="hover">
+                        <div class="aui-btn aui-btn-block aui-btn-sm add_ads">确认添加</div>
+                    </div>
+                </footer>
+            </li>
+
+            <li v-show="flag == 2">
+                <ul>
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-title">
+                                <label>
+                                <input class="aui-radio" type="radio" name="radio" value="item.addressId" v-model="checkSwitch"> 个人
+                            </label>
+                                <label class="aui-margin-l-10">
+                                <input class="aui-radio" type="radio" name="radio" value="item.addressId" v-model="checkSwitch"> 公司
+                            </label>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item aui-margin-t-10">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-title">
+                                发票抬头
+                                <input type="text" placeholder="个人（不可修改）">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <footer class="aui-bar aui-bar-tab" id="footer">
+                    <div class="aui-bar-tab-item aui-padded-l-15 aui-padded-r-15" tapmode="hover">
+                        <div class="aui-btn aui-btn-block aui-btn-sm add_ads">确认添加</div>
+                    </div>
+                </footer>
+            </li>
+            <li class="aui-list-item" v-show="flag == 3">
+                <footer class="aui-bar aui-bar-tab" id="footer">
+                    <div class="aui-bar-tab-item aui-padded-l-15 aui-padded-r-15" tapmode="hover">
+                        <div class="aui-btn aui-btn-block aui-btn-sm add_ads">确认添加</div>
+                    </div>
+                </footer>
+            </li>
+        </ul>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#pageMsg",
+        data: {
+            flag: 1,
+            checkSwitch: "",
+            pageList: [{
+                pageId: '1',
+                pageName: '电子发票'
+            }, {
+                pageId: '2',
+                pageName: '纸质发票'
+            }, {
+                pageId: '3',
+                pageName: '不开发票'
+            }, ]
+        },
+        mounted: function() {
+            apiready = function() {
+                api.parseTapmode();
+
+            };
+        },
+        methods: {
+            changeCard: function(val) {
+                this.flag = val;
+            }
+        }
+
+    })
+</script>
+
+</html>

@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>cake</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .item_style {
+            background: #fff;
+        }
+
+        .item_style img {
+            width: 100%;
+        }
+
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .aui-content .item_style p {
+            color: #151515;
+        }
+
+        .aui-content .item_style dl dt:nth-of-type(1) {
+            color: #A5A5A5;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .aui-content .item_style dl dt:nth-of-type(2) i {
+            color: #151515;
+        }
+        /*显示与隐藏*/
+
+        .open {
+            display: inline-block;
+        }
+
+        .close {
+            display: none;
+        }
+        /*遮罩层*/
+
+        .model {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            top: 0;
+            left: 0;
+            z-index: 9;
+            overflow: auto;
+        }
+        /*初始化*/
+
+        .context {
+            position: absolute;
+            margin: auto;
+            top: 0;
+            width: 100%;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            background: #fff;
+            border-radius: 0.5rem;
+            z-index: 10;
+            overflow: auto;
+            transform: scale(0.8);
+            -webkit-transform: scale(0.8);
+        }
+        /*弹框move*/
+
+        .context .aui-content .aui-row img {
+            width: 60%;
+        }
+
+        .sliderDown-enter-active {
+            transition: all 0.3s ease;
+        }
+
+        .sliderDown-leave-active {
+            transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+        }
+
+        .sliderDown-enter,
+        .sliderDown-leave-to {
+            transform: scale(1);
+            -webkit-transform: scale(1);
+            opacity: 0;
+        }
+
+        .bong_s li span {
+            display: inline-block;
+            width: 80%;
+            height: 100%;
+            color: #000;
+            background: #d2d2d2;
+        }
+
+        .bong_s li span.active {
+            border: 1px solid #151515;
+            color: #151515;
+        }
+
+        .btn .add_shop {
+            width: 50%;
+            height: 3rem;
+            color: #fff;
+            background: #151515;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .line_height {
+            line-height: 2.5rem;
+        }
+
+        .price_s {
+            color: #724228;
+        }
+    </style>
+</head>
+
+
+<body>
+    <section class="aui-content" id="app">
+        <ul class="aui-row">
+            <li class="aui-col-xs-6 item_style" tapmode="hover" v-for="(item,index) in giftList">
+                <div tapmode="hover" @click="moreDetail(item)">
+                    <img :src="preSrc+item.goodsimg" alt="cake">
+                    <p class="aui-margin-t-10 aui-margin-l-10">{{item.goodsname1}}</p>
+                    <p class="aui-margin-l-10">{{item.goodsname2}}</p>
+                    <span class="aui-margin-l-10 price_s">￥ {{item.priceList[0].price}} 元</span>
+                </div>
+                <dl class="aui-row">
+                    <dt class="aui-col-xs-7">
+                        {{item.goodsdes}}
+                    </dt>
+                    <dt class="aui-col-xs-2 aui-text-right">
+                        <i class="aui-iconfont aui-icon-cart aui-font-size-16" tapmode="hover" @click="addCart(item)"></i>
+                    </dt>
+                </dl>
+            </li>
+            <li class="aui-col-xs-12 aui-card-list-footer aui-text-center price_s" v-show="loadOver">
+                到底啦
+            </li>
+        </ul>
+        <!-- diolgo box -->
+        <div :class="isShows">
+            <div class="model" @click.self="closeModel" tapmode>
+                <transition :name='silderDrections'>
+                    <div v-show='flag' class="context">
+                        <div class="aui-content">
+                            <p v-for="(item,index) in boxMsg.priceList" v-show="index == activeIndex" class="price_s aui-font-size-16 aui-padded-10">￥ {{item.price}} 元</p>
+
+                            <p class="aui-padded-10">{{boxMsg.goodsname2}}</p>
+
+                            <div class="aui-margin-10">
+                                <ul class="bong_s aui-row">
+                                    <li v-for="(item,index) in boxMsg.bongsList" class="aui-col-xs-4 aui-text-center">
+                                        <span @click="selectSwitch(index)" :class="{'active': index == activeIndex}" class="aui-font-size-14">{{item.bongs}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="btn aui-text-center">
+                            <button type="button" class="add_shop aui-font-size-16">加入购物车</button>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+        </div>
+
+
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript">
+    var top = 0;
+    var bodyEl = document.body;
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            isScollor: false,
+            activeIndex: "0",
+            isShows: 'close',
+            flag: false,
+            silderDrections: 'sliderDown',
+            preSrc: '../../image/cake/',
+            boxMsg: Object,
+            giftList: [],
+            loadOver: false
+        },
+        mounted: function() {
+            var _this = this;
+            apiready = function() {
+                api.parseTapmode();
+                init('giftList', function(gn) {
+                    _this.giftList = gn;
+                    _this.loadOver = true;
+                })
+
+                _this.pullRefresh();
+            }
+        },
+        methods: {
+            pullRefresh: function() {
+                api.setCustomRefreshHeaderInfo({
+                    bgColor: '#eee',
+                    tips: {
+                        pull: '下拉刷新',
+                        threshold: '松开立即刷新',
+                        load: '正在刷新'
+                    }
+                }, function() {
+                    api.toast({
+                        msg: '刷新成功啦',
+                        duration: 2000,
+                        location: 'bottom'
+                    })
+                    setTimeout(function() {
+                        api.refreshHeaderLoadDone();
+                    }, 300)
+                });
+            },
+            addCart: function(val) {
+                this.isScollor = true;
+                this.stopBodyScoll(this.isScollor);
+                this.activeIndex = '0';
+                this.isShows = 'open';
+                this.flag = true;
+                this.boxMsg = val;
+            },
+            moreDetail: function(obj) {
+                api.openWin({
+                    name: 'descript_win',
+                    url: './descript_win.html',
+                    pageParam: {
+                        goodID: obj.goodsid
+                    },
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    delay: 300
+                });
+            },
+            closeModel: function() {
+                this.flag = false;
+                this.isScollor = false;
+                var _this = this;
+                setTimeout(function() {
+                    _this.isShows = 'close';
+                }, 300)
+                this.stopBodyScoll(this.isScollor);
+            },
+            selectSwitch: function(val) {
+                this.activeIndex = val;
+            },
+            stopBodyScoll: function(isFixed) {
+                if (isFixed) {
+                    top = window.scrollY;
+                    bodyEl.style.position = "fixed";
+                    bodyEl.style.top = -top + 'px';
+                } else {
+                    bodyEl.style.position = "";
+                    bodyEl.style.top = "";
+                    window.scrollTo(0, top);
+                }
+            }
+        }
+    });
+</script>
+
+</html>

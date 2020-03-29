@@ -1,0 +1,1 @@
+html,body{	min-height: 100%;	width:100%;	font-family: "微软雅黑"}#wrap{    height: 100%;    display: -webkit-box;    display: -webkit-flex;    display: flex;    -webkit-box-orient: vertical;    -webkit-flex-flow: column;           flex-flow: column;}#main{    -webkit-box-flex: 1;    -webkit-flex: 1;    flex: 1;    padding: 2em;}

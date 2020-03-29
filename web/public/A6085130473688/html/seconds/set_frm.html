@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>share</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .add_ads {
+            background: #151515;
+            color: #fff;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <section class="aui-content">
+        <ul class="aui-row">
+            <ul class="aui-list aui-list-in">
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-home"></i>
+                    </div>
+                    <div class="aui-list-item-inner" onclick="openDistrict()">
+                        我的地址
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-edit"></i>
+                    </div>
+                    <div class="aui-list-item-inner">
+                        我的优惠卷
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-camera"></i>
+                    </div>
+                    <div class="aui-list-item-inner">
+                        关于我们
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-camera"></i>
+                    </div>
+                    <div class="aui-list-item-inner">
+                        检查版本
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-camera"></i>
+                    </div>
+                    <div class="aui-list-item-inner">
+                        服务条款
+                    </div>
+                </li>
+            </ul>
+        </ul>
+    </section>
+    <footer class="aui-bar aui-bar-tab" id="footer">
+        <div class="aui-bar-tab-item aui-padded-l-15 aui-padded-r-15" tapmode="hover" onclick="exitLogin()">
+            <div class="aui-btn aui-btn-block aui-btn-sm add_ads">退出登录</div>
+        </div>
+    </footer>
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.parseTapmode();
+    }
+
+    function exitLogin() {
+        var nlsp = new lsp("userCount");
+        nlsp.remove('userCount');
+        api.openWin({
+            name: 'login_win',
+            url: '../login/login_win.html',
+            pageParam: {
+                name: 'test'
+            },
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            delay: 200
+        });
+    }
+
+    function openDistrict() {
+      var addressView = api.require('addressView');
+      addressView.open({
+          file_addr: 'widget://res/district.txt', //数据源地址
+          selected_color: '#ff0000', //颜色
+          pro_id: 410000, //省id
+          city_id: 410100, //市id
+          dir_id: 410104 //区id
+      });
+      $api.addEvt($api.byId("addressView"), 'click', function() {
+          addressView.show({}, function(ret, err) {
+              if (ret.status) {
+                  alert(JSON.stringify(ret)); //返回值
+              }
+          });
+      });
+    }
+</script>
+
+</html>

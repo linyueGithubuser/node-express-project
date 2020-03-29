@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="../../css/aui.css">
+    <link rel="stylesheet" href="../../css/swiper.min.css">
+    <style media="screen">
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+            margin-top: 260px;
+        }
+
+        .swiper-container .swiper-slide img {
+            width: 60px;
+            margin-left: 14%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            background: #fff;
+            border-radius: 10px;
+        }
+
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .aui-content {
+            width: 90%;
+            margin: 20px auto;;
+            border-radius: 6px;
+            box-shadow: 0 0 2px #726c6b;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Swiper -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" onclick="openNewWin(0)" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/home-cake.png" alt="图片2" />
+                <p class="aui-font-size-14">蛋糕</p>
+            </div>
+            <div class="swiper-slide" onclick="openNewWin(1)" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/home-coffee.jpg" alt="图片2" />
+                <p class="aui-font-size-14">冰淇淋</p>
+            </div>
+            <div class="swiper-slide" onclick="openNewWin(2)" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/home-ice.png" alt="图片2" />
+                <p class="aui-font-size-14">下午茶</p>
+            </div>
+            <div class="swiper-slide" onclick="openNewWin(3)" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/home-gift.png" alt="图片2" />
+                <p class="aui-font-size-14">礼品</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="aui-content aui-margin-t-10">
+        <h5 class="aui-text-center">小幸运.榜单</h5>
+        <ul class="aui-row">
+            <li class="aui-col-xs-5 aui-margin-r-10">
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/top-list1.png" alt="图片3" />
+            </li>
+            <li class="aui-col-xs-5">
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/scene.png" alt="图片3" />
+            </li>
+        </ul>
+        <h5 class="aui-text-center">小幸运.新品</h5>
+        <ul>
+            <li>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/theme-top.png" alt="图片3" />
+            </li>
+        </ul>
+    </section>
+
+
+    <div class="swiper-container2">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/theme-list.png" alt="图片4" />
+            </div>
+            <div class="swiper-slide" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/theme-list1.png" alt="图片4" />
+
+            </div>
+            <div class="swiper-slide" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/cake03.jpg" alt="图片4" />
+            </div>
+        </div>
+    </div>
+
+    <section class="aui-content aui-margin-t-10">
+        <h5 class="aui-text-center">小幸运.中秋节</h5>
+        <ul class="aui-row">
+            <li class="aui-col-xs-12">
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/theme-top.png" alt="图片3" />
+            </li>
+        </ul>
+    </section>
+
+    <div class="swiper-container3">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/cake5.jpg" alt="图片5" />
+            </div>
+            <div class="swiper-slide" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/cake6.jpg" alt="图片5" />
+            </div>
+            <div class="swiper-slide" tapmode='hover'>
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/cake7.jpg" alt="图片5" />
+            </div>
+        </div>
+    </div>
+
+    <section class="aui-content aui-margin-t-10">
+        <h5 class="aui-text-center">小幸运.活动</h5>
+        <ul>
+            <li class="aui-margin-t-10">
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/banner1.png" alt="图片3" />
+            </li>
+            <li class="aui-margin-t-10">
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/activity.png" alt="图片3" />
+            </li>
+            <li class="aui-margin-t-10">
+                <img class="lazy" src="../../image/load/load_before.png" data-echo="../../image/cake/banner2.png" alt="图片3" />
+            </li>
+        </ul>
+    </section>
+
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/echo.min.js"></script>
+<script type="text/javascript" src="../../script/swiper.min.js"></script>
+<script type="text/javascript">
+    Echo.init({
+        offset: 0,
+        throttle: 0
+    });
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 4,
+        spaceBetween: 10
+    });
+
+    var swiper = new Swiper('.swiper-container2', {
+        slidesPerView: 3,
+        spaceBetween: 10
+    });
+
+    var swiper = new Swiper('.swiper-container3', {
+        slidesPerView: 3,
+        spaceBetween: 10
+    });
+
+    apiready = function() {
+        api.parseTapmode();
+        var UIScrollPicture = api.require('UIScrollPicture');
+        UIScrollPicture.open({
+                rect: {
+                    x: 0,
+                    y: 0,
+                    w: 'auto',
+                    h: 220
+                },
+                data: {
+                    paths: [
+                        'widget://image/cake/banner1.png',
+                        'widget://image/cake/banner2.png'
+                    ],
+                    captions: ["融合了樱桃的酸、奶油的甜、巧克力的苦、樱桃酒的醇香，正是爱情的味道完美的黑森林蛋糕经得起各种口味的挑剔。 黑森林蛋糕被称作黑森林的特产正宗的黑森林蛋糕， 巧克力相对比较少， 更为突出的是樱桃酒和奶油的味道",
+                        '味道甜中带苦，却又始终如一的味道。预示着，等待就是甜中带苦，怀着忠实的真心，不会变心的等待。甜蜜快乐，它独特的奶香可以把苦涩的咖啡变得香醇、浓厚，即使是不会品尝咖啡的人也会为它而着迷。感悟人生，香甜而又苦涩，可以让人领略人生的滋味。'
+                    ]
+                },
+                styles: {
+                    caption: {
+                        height: 30,
+                        color: '#724228',
+                        size: 12,
+                        bgColor: '#fff',
+                        position: 'bottom'
+                    },
+                    indicator: {
+                        dot: {
+                            w: 100,
+                            h: 2,
+                            r: 0,
+                            margin: 20
+                        },
+                        align: 'right',
+                        color: '#FFFFFF',
+                        activeColor: '#DA70D6'
+                    }
+                },
+                placeholderImg: 'widget://image/load/load_before.png',
+                contentMode: 'scaleToFill',
+                fixedOn: api.frameName,
+                interval: 5,
+                loop: true,
+                fixed: false,
+                auto: true
+            },
+            function(ret, err) {
+                if (ret) {
+                    // alert(JSON.stringify(ret));
+                } else {
+                    // alert(JSON.stringify(err));
+                }
+            });
+
+    }
+
+
+    function openNewWin(val) {
+        api.openWin({
+            name: 'cake_win',
+            url: '../three/cake_win.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            delay: 200,
+            pageParam: {
+                leiNum: val
+            }
+        });
+    }
+</script>
+
+</html>

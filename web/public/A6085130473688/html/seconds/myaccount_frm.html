@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>set</title>
+    <link rel="stylesheet" href="../../css/aui.css">
+    <style media="screen">
+        .hover {
+            background-color: #eee !important;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="app">
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-header">
+                    绑定的银行卡
+                </li>
+                <li class="aui-list-item aui-list-item-middle" tapmode='hover' v-for="item in bankList">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-media" style="width: 3rem;">
+                            <img :src="item.bankIcon" class="aui-img-round aui-list-img-sm" alt="logo" />
+                        </div>
+                        <div class="aui-list-item-inner aui-list-item-arrow">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">{{item.bankName}}</div>
+                                <div>绑定日期: {{item.addDate}}</div>
+                            </div>
+                            <div class="aui-list-item-text">
+                                余额: {{item.money}}元
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var data = {
+            bankList: [{
+                bankName: '中国工商银行',
+                bankIcon: '../../image/bank/gongs.png',
+                money: '7655675',
+                addDate: '2018-01-01'
+            }, {
+                bankName: '中国建设银行',
+                bankIcon: '../../image/bank/jians.png',
+                money: '132144324',
+                addDate: '2018-02-05'
+            }, {
+                bankName: '中国邮政银行',
+                bankIcon: '../../image/bank/youz.png',
+                money: '423324432',
+                addDate: '2018-03-09'
+            }]
+        }
+        api.parseTapmode();
+        var vm = new Vue({
+            el: "#app",
+            data: data,
+            methods: {
+
+            }
+        });
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#eee',
+            tips: {
+                pull: '下拉刷新',
+                threshold: '松开立即刷新',
+                load: '正在刷新'
+            }
+        }, function() {
+            api.toast({
+                msg: '刷新成功啦',
+                duration: 2000,
+                location: 'bottom'
+            });
+
+            setTimeout(function() {
+                api.refreshHeaderLoadDone();
+            }, 300)
+
+        });
+    };
+</script>
+
+</html>

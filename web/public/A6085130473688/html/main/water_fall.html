@@ -1,0 +1,347 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>order</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+        .hover {
+            background-color: #eee !important;
+        }
+
+        .init_css {
+            padding: 20px 10px;
+            width: 50%;
+            border-radius: 4px;
+            box-shadow: 0px 0px 4px #90EE90;
+            color: #fff;
+            font-size: 0.8rem;
+        }
+
+        .content {
+            width: 100%;
+        }
+
+        .header img {
+            width: 100%;
+        }
+
+        .header {
+            text-align: left;
+            border-bottom: 10px solid #ececec;
+            color: #AD814B;
+        }
+
+        .header p {
+            width: 90%;
+            margin: 1% auto 2%;
+        }
+
+        .header>p:nth-of-type(2) {
+            font-size: 14px;
+        }
+
+        .session {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding: 5% 0;
+            flex-wrap: wrap;
+            color: white;
+            text-align: left;
+            position: relative;
+        }
+
+        .edit {
+            text-align: center;
+            color: #AD814B;
+            border: 1px dashed #c9c9c9;
+        }
+
+        .edit p:nth-of-type(2) {
+            margin-top: 20%;
+            line-height: 100%;
+            text-align: right;
+        }
+
+        .commentaries {
+            width: 45%;
+            /*background-color: #a8c0c7;*/
+            border: 5px solid white;
+            height: 100%;
+        }
+
+        .commentaries p {
+            color: #fff;
+        }
+
+        .edit,
+        .commentaries {
+            margin: 1.5%;
+            padding: 0 2%;
+            box-shadow: 1px 1px 10px #888888;
+        }
+
+        .headerImg img {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            margin-right: 2%;
+            border: 1px solid darkgray;
+        }
+
+        .headerImg {
+            display: flex;
+            line-height: 30px;
+        }
+
+        .active {
+            color: #000066;
+        }
+        /*文本域样式*/
+
+        .moTalk {
+            margin-top: 6%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            height: 100%;
+            background-color: rgba(29, 29, 29, 0.14);
+        }
+
+        .talk {
+            width: 100%;
+            display: inline-block;
+            background-color: white;
+        }
+
+        textarea {
+            width: 90%;
+            margin: 2% auto;
+            border: none;
+            height: 100px;
+        }
+
+        textarea:focus {
+            outline: none;
+        }
+
+        textarea::-webkit-input-placeholder {
+            color: #724228;
+        }
+
+        .talk div {
+            display: flex;
+            width: 90%;
+            margin: 5% auto;
+            justify-content: space-between;
+        }
+
+        .talk div>button {
+            color: white;
+            padding: 1% 2.5%;
+            border: none;
+            border-radius: 20px;
+            background-color: #724228;
+        }
+
+        .close {
+            height: 100%;
+        }
+        /*右侧笔*/
+
+        .rightPen {
+            color: white;
+            background: #000;
+            -moz-opacity: 0.6;
+            opacity: 0.6;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 60px;
+            position: fixed;
+            right: 0;
+            bottom: 10%;
+            width: 60px;
+            height: 60px;
+        }
+
+        .rightPen i {
+            font-size: 1rem;
+        }
+        /*模态框*/
+
+        .m-modal {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            border: 1px solid darkcyan;
+            background: rgba(0, 0, 0, 0.74);
+            top: 0;
+        }
+
+        .m-modal p {
+            width: 50%;
+            padding: 3% 0;
+            background: white;
+            margin-top: 60%;
+            display: inline-block;
+        }
+
+        .test {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="app">
+        <div class="test">
+            <div class="header">
+                <img src="../../image/cake/contentBg.jpg" alt="">
+                <p>Who is No.1&No.21</p>
+                <p>成为该区的MVP，推你上首页</p>
+            </div>
+            <div class="aui-row">
+                <div class="edit aui-col-xs-8" v-on:click="showPen">
+                    <p class="headerImg">
+                        <img src="../../image/cake/logo.png" alt="">
+                        <span>匿名</span>
+                    </p>
+                    <p class="Primaryfont">
+                        <i class="aui-iconfont aui-icon-pencil"></i>
+                        <span>说点吧!!</span>
+                    </p>
+                </div>
+                <div class="commentaries aui-col-xs-5" v-for="item in commentaries" :style="{background:bg_color}">
+                    <p class="headerImg">
+                        <img :src="item.talkHeaderImg" alt="">
+                        <span>{{item.talkName}}</span>
+                    </p>
+                    <p class="Primaryfont">{{item.talkContent}}</p>
+                    <p class="subtitle" v-on:click="thumbup(item.talkId)">
+                        <i class="aui-iconfont aui-icon-pencil" v-bind:class="{active: item.isActive}"></i>
+                        <span>{{item.count}}</span>
+                    </p>
+                </div>
+            </div>
+            <!--文本域-->
+            <div class="moTalk" v-if="show">
+                <div class="talk">
+                    <textarea placeholder="有话说。。" maxlength="50" @input="descInput" v-model="desc"></textarea>
+                    <div>
+                        <span class="Lightgrey">{{num}}</span>
+                        <button @click="publish">发表</button>
+                    </div>
+                </div>
+                <div class="close" v-on:click.stop="showTalk"></div>
+            </div>
+            <!--右侧笔-->
+            <div class="rightPen" v-if="penShow" @click="showPen">
+                <i class="aui-iconfont aui-icon-pencil"></i>
+            </div>
+            <!--当没有输入内容时-->
+            <div class="m-modal" v-show="visible">
+                <p>请填写发表内容！</p>
+            </div>
+        </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/localdate.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            bg_color: "",
+            // h_Height: "",
+            show: false,
+            penShow: true,
+            commentaries: [],
+            num: 50,
+            desc: "",
+            visible: false,
+            text: {}
+        },
+        mounted: function() {
+            var _this = this;
+            init('holeList', function(gn) {
+                var comment = [];
+                for (var i = 0; i < gn.length; i++) {
+                    comment[i] = gn[gn.length - 1 - i];
+                    _this.$set(_this.commentaries, i, comment[i]);
+                }
+            });
+
+            var max = 60;
+            var min = 20
+            _this.drawColor(min, max)
+
+            apiready = function() {
+                api.parseTapmode();
+            };
+        },
+        methods: {
+            randNum: function(min, max) {
+                var num = Math.floor(Math.random() * (max - min) + min);
+                return num;
+            },
+            randColor: function(min, max) {
+                var r = this.randNum(min, max);
+                var g = this.randNum(min, max);
+                var b = this.randNum(min, max);
+                return "rgb(" + r + "," + g + "," + b + ")";
+            },
+            rangHeight: function(min, max) {
+                var h = this.randNum(min, max);
+                return h;
+            },
+            drawColor: function(min, max) {
+                this.bg_color = this.randColor(min, max);
+                // this.h_Height = this.rangHeight(min, max) + "px";
+            },
+            //    隐藏笔显示外层
+            showPen: function() {
+                this.show = !this.show;
+                this.penShow = !this.penShow;
+            },
+            //    隐藏外层显示笔
+            showTalk: function() {
+                this.penShow = !this.penShow;
+                this.show = !this.show;
+            },
+            //    点赞功能
+            thumbup: function(index) {
+                this.commentaries[index - 1].count += 1;
+                this.commentaries[index - 1].isActive = true;
+            },
+            //    剩余字数
+            descInput: function() {
+                var txtVal = this.desc.length;
+                this.num = 50 - txtVal;
+            },
+            //    提交按钮
+            publish: function() {
+                var txtVal = this.desc.length;
+                if (txtVal == 0) {
+                    var _this = this;
+                    var testw = this.visible = true;
+                    setTimeout(function test() {
+                        testw = false;
+                        _this.visible = testw;
+                    }, 1000);
+                } else {
+                    this.text.talkConten = this.desc;
+                    this.desc = '';
+                    this.show = false;
+                }
+            }
+        }
+    })
+</script>
+
+</html>
